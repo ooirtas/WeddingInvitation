@@ -145,6 +145,52 @@ function Calendar_days($$renderer, $$props) {
     }
   ]));
 }
+function Calendar_plus($$renderer, $$props) {
+  const $$sanitized_props = sanitize_props($$props);
+  /**
+   * @license lucide-svelte v0.469.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+  const iconNode = [
+    ["path", { "d": "M8 2v4" }],
+    ["path", { "d": "M16 2v4" }],
+    [
+      "path",
+      {
+        "d": "M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"
+      }
+    ],
+    ["path", { "d": "M3 10h18" }],
+    ["path", { "d": "M16 19h6" }],
+    ["path", { "d": "M19 16v6" }]
+  ];
+  Icon($$renderer, spread_props([
+    { name: "calendar-plus" },
+    $$sanitized_props,
+    {
+      /**
+       * @component @name CalendarPlus
+       * @description Lucide SVG icon component, renders SVG Element with children.
+       *
+       * @preview ![img](data:image/svg+xml;base64,PHN2ZyAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogIHdpZHRoPSIyNCIKICBoZWlnaHQ9IjI0IgogIHZpZXdCb3g9IjAgMCAyNCAyNCIKICBmaWxsPSJub25lIgogIHN0cm9rZT0iIzAwMCIgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNmZmY7IGJvcmRlci1yYWRpdXM6IDJweCIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNOCAydjQiIC8+CiAgPHBhdGggZD0iTTE2IDJ2NCIgLz4KICA8cGF0aCBkPSJNMjEgMTNWNmEyIDIgMCAwIDAtMi0ySDVhMiAyIDAgMCAwLTIgMnYxNGEyIDIgMCAwIDAgMiAyaDgiIC8+CiAgPHBhdGggZD0iTTMgMTBoMTgiIC8+CiAgPHBhdGggZD0iTTE2IDE5aDYiIC8+CiAgPHBhdGggZD0iTTE5IDE2djYiIC8+Cjwvc3ZnPgo=) - https://lucide.dev/icons/calendar-plus
+       * @see https://lucide.dev/guide/packages/lucide-svelte - Documentation
+       *
+       * @param {Object} props - Lucide icons props and any valid SVG attribute
+       * @returns {FunctionalComponent} Svelte component
+       *
+       */
+      iconNode,
+      children: ($$renderer2) => {
+        $$renderer2.push(`<!--[-->`);
+        slot($$renderer2, $$props, "default", {});
+        $$renderer2.push(`<!--]-->`);
+      },
+      $$slots: { default: true }
+    }
+  ]));
+}
 function Clock_3($$renderer, $$props) {
   const $$sanitized_props = sanitize_props($$props);
   /**
@@ -561,6 +607,7 @@ function SectionHeading($$renderer, $$props) {
   $$renderer.push(`<!--]--></div>`);
   bind_props($$props, { eyebrow, title, description });
 }
+const westlifeMusic = "/_app/immutable/assets/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.DaBmp59u.mp3";
 const couple = {
   bride: {
     name: "Aruna Maharani",
@@ -644,7 +691,7 @@ const initialWishes = [
     timestamp: "Today"
   }
 ];
-const musicSrc = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_d1718d50bd.mp3?filename=wedding-ambience-110036.mp3";
+const musicSrc = westlifeMusic;
 function CoupleSection($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     $$renderer2.push(`<section id="couple" class="section-shell"><div class="ornament-ring left-0 top-20 hidden md:block"></div> <div class="ornament-ring bottom-16 right-0 hidden md:block"></div> `);
@@ -697,28 +744,53 @@ function CountdownSection($$renderer, $$props) {
     $$renderer2.push(`<!--]--></div></section>`);
   });
 }
-function EventDetails($$renderer) {
-  $$renderer.push(`<section id="details" class="section-shell">`);
-  SectionHeading($$renderer, {
-    eyebrow: "Wedding Event",
-    title: "A celebration steeped in warmth and elegance",
-    description: "Join us for our sacred vows and joyful reception in the heart of Yogyakarta."
+function generateCalendarLinks(event) {
+  const { title, date, time, location, note } = event;
+  const year = 2027;
+  const month = "02";
+  const day = "14";
+  const hour = time.split(":")[0];
+  const minutes = "00";
+  const startDateTime = `${year}${month}${day}T${hour}${minutes}00Z`;
+  const endDateTime = `${year}${month}${day}T${parseInt(hour) + 3}${minutes}00Z`;
+  const details = encodeURIComponent(note);
+  const locationEncoded = encodeURIComponent(location);
+  const titleEncoded = encodeURIComponent(`The Wedding of Aruna & Bima - ${title}`);
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  return {
+    google: `https://www.google.com/calendar/render?action=TEMPLATE&text=${titleEncoded}&dates=${startDateTime}/${endDateTime}&details=${details}&location=${locationEncoded}`,
+    outlook: `https://outlook.live.com/calendar/0/deeplink/compose?subject=${titleEncoded}&startdt=${year}-${month}-${day}T${hour}:${minutes}:00&enddt=${year}-${month}-${day}T${parseInt(hour) + 3}:${minutes}:00&body=${details}&location=${locationEncoded}`,
+    ics: `data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0AURL:${encodeURIComponent(currentUrl)}%0ADTSTART:${startDateTime}%0ADTEND:${endDateTime}%0ASUMMARY:${titleEncoded}%0ADESCRIPTION:${details}%0ALOCATION:${locationEncoded}%0AEND:VEVENT%0AEND:VCALENDAR`
+  };
+}
+function EventDetails($$renderer, $$props) {
+  $$renderer.component(($$renderer2) => {
+    $$renderer2.push(`<section id="details" class="section-shell">`);
+    SectionHeading($$renderer2, {
+      eyebrow: "Wedding Event",
+      title: "A celebration steeped in warmth and elegance",
+      description: "Join us for our sacred vows and joyful reception in the heart of Yogyakarta."
+    });
+    $$renderer2.push(`<!----> <div class="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]"><div class="grid gap-5"><!--[-->`);
+    const each_array = ensure_array_like(events);
+    for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
+      let event = each_array[$$index];
+      $$renderer2.push(`<article class="glass-card p-6"><div class="mb-5 inline-flex items-center gap-3 rounded-full bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-gold">`);
+      Sparkles($$renderer2, { size: 14 });
+      $$renderer2.push(`<!----> ${escape_html(event.title)}</div> <div class="space-y-4"><div class="flex items-start gap-3">`);
+      Clock_3($$renderer2, { size: 18, class: "mt-1 text-gold" });
+      $$renderer2.push(`<!----> <div><h3 class="font-display text-3xl text-cocoa dark:text-cream">${escape_html(event.time)}</h3> <p class="mt-1 text-sm text-cocoa/75 dark:text-cream/75">${escape_html(event.date)}</p></div></div> <div class="flex items-start gap-3">`);
+      Map_pin($$renderer2, { size: 18, class: "mt-1 text-gold" });
+      $$renderer2.push(`<!----> <p class="text-sm leading-7 text-cocoa/75 dark:text-cream/75">${escape_html(event.location)}</p></div> <p class="rounded-[1.5rem] bg-white/55 p-4 text-sm leading-7 text-cocoa/75 dark:bg-white/5 dark:text-cream/75">${escape_html(event.note)}</p> <div class="flex flex-wrap gap-2 pt-2"><a${attr("href", generateCalendarLinks(event).google)} target="_blank" class="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-white/40 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-wider text-cocoa transition hover:bg-gold/10 dark:bg-white/5 dark:text-cream">`);
+      Calendar_plus($$renderer2, { size: 14, class: "text-gold" });
+      $$renderer2.push(`<!----> Google Calendar</a> <a${attr("href", generateCalendarLinks(event).ics)}${attr("download", `${event.title}.ics`)} class="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-white/40 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-wider text-cocoa transition hover:bg-gold/10 dark:bg-white/5 dark:text-cream">`);
+      Calendar_plus($$renderer2, { size: 14, class: "text-gold" });
+      $$renderer2.push(`<!----> iCal / Outlook</a></div></div></article>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="glass-card overflow-hidden p-3"><div class="rounded-[1.75rem] bg-white/50 p-5 dark:bg-white/5"><div class="mb-5 flex items-center gap-3">`);
+    Calendar_days($$renderer2, { size: 18, class: "text-gold" });
+    $$renderer2.push(`<!----> <div><h3 class="font-display text-3xl text-cocoa dark:text-cream">Venue Location</h3> <p class="text-sm text-cocoa/70 dark:text-cream/70">Pendopo Agung Larasati</p></div></div> <iframe class="min-h-[340px] w-full rounded-[1.5rem]" title="Wedding venue location" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Keraton%20Yogyakarta&amp;z=14&amp;output=embed"></iframe></div></div></div></section>`);
   });
-  $$renderer.push(`<!----> <div class="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]"><div class="grid gap-5"><!--[-->`);
-  const each_array = ensure_array_like(events);
-  for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
-    let event = each_array[$$index];
-    $$renderer.push(`<article class="glass-card p-6"><div class="mb-5 inline-flex items-center gap-3 rounded-full bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-gold">`);
-    Sparkles($$renderer, { size: 14 });
-    $$renderer.push(`<!----> ${escape_html(event.title)}</div> <div class="space-y-4"><div class="flex items-start gap-3">`);
-    Clock_3($$renderer, { size: 18, class: "mt-1 text-gold" });
-    $$renderer.push(`<!----> <div><h3 class="font-display text-3xl text-cocoa dark:text-cream">${escape_html(event.time)}</h3> <p class="mt-1 text-sm text-cocoa/75 dark:text-cream/75">${escape_html(event.date)}</p></div></div> <div class="flex items-start gap-3">`);
-    Map_pin($$renderer, { size: 18, class: "mt-1 text-gold" });
-    $$renderer.push(`<!----> <p class="text-sm leading-7 text-cocoa/75 dark:text-cream/75">${escape_html(event.location)}</p></div> <p class="rounded-[1.5rem] bg-white/55 p-4 text-sm leading-7 text-cocoa/75 dark:bg-white/5 dark:text-cream/75">${escape_html(event.note)}</p></div></article>`);
-  }
-  $$renderer.push(`<!--]--></div> <div class="glass-card overflow-hidden p-3"><div class="rounded-[1.75rem] bg-white/50 p-5 dark:bg-white/5"><div class="mb-5 flex items-center gap-3">`);
-  Calendar_days($$renderer, { size: 18, class: "text-gold" });
-  $$renderer.push(`<!----> <div><h3 class="font-display text-3xl text-cocoa dark:text-cream">Venue Location</h3> <p class="text-sm text-cocoa/70 dark:text-cream/70">Pendopo Agung Larasati</p></div></div> <iframe class="min-h-[340px] w-full rounded-[1.5rem]" title="Wedding venue location" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Keraton%20Yogyakarta&amp;z=14&amp;output=embed"></iframe></div></div></div></section>`);
 }
 function LoveStoryTimeline($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
@@ -775,19 +847,36 @@ function RSVPSection($$renderer, $$props) {
         class: "rounded-[1.25rem] border border-gold/15 bg-white/70 px-4 py-3 text-cocoa outline-none transition focus:border-gold dark:bg-white/5 dark:text-cream"
       },
       ($$renderer3) => {
-        $$renderer3.option({ value: "" }, ($$renderer4) => {
-          $$renderer4.push(`Choose one`);
-        });
-        $$renderer3.option({ value: "Attending" }, ($$renderer4) => {
-          $$renderer4.push(`Attending`);
-        });
-        $$renderer3.option({ value: "Maybe" }, ($$renderer4) => {
-          $$renderer4.push(`Maybe`);
-        });
-        $$renderer3.option({ value: "Unable to Attend" }, ($$renderer4) => {
-          $$renderer4.push(`Unable to Attend`);
-        });
-      }
+        $$renderer3.option(
+          { value: "", class: "" },
+          ($$renderer4) => {
+            $$renderer4.push(`Choose one`);
+          },
+          "svelte-1bebwck"
+        );
+        $$renderer3.option(
+          { value: "Attending", class: "" },
+          ($$renderer4) => {
+            $$renderer4.push(`Attending`);
+          },
+          "svelte-1bebwck"
+        );
+        $$renderer3.option(
+          { value: "Maybe", class: "" },
+          ($$renderer4) => {
+            $$renderer4.push(`Maybe`);
+          },
+          "svelte-1bebwck"
+        );
+        $$renderer3.option(
+          { value: "Unable to Attend", class: "" },
+          ($$renderer4) => {
+            $$renderer4.push(`Unable to Attend`);
+          },
+          "svelte-1bebwck"
+        );
+      },
+      "svelte-1bebwck"
     );
     $$renderer2.push(`</label> <label class="grid gap-2 text-sm font-medium text-cocoa dark:text-cream md:col-span-2">Message <textarea rows="5" class="rounded-[1.25rem] border border-gold/15 bg-white/70 px-4 py-3 text-cocoa outline-none transition focus:border-gold dark:bg-white/5 dark:text-cream" placeholder="Share your blessings and kind words">`);
     const $$body = escape_html(message);
@@ -858,12 +947,13 @@ function _page($$renderer, $$props) {
     ThemeToggle($$renderer2, { darkMode, onToggle: toggleTheme });
     $$renderer2.push(`<!----> `);
     MusicPlayer($$renderer2, { playing, onToggle: toggleMusic });
-    $$renderer2.push(`<!----> <div${attr_class("relative overflow-x-hidden transition duration-700", void 0, { "blur-sm": !opened })}>`);
+    $$renderer2.push(`<!----> <div class="relative overflow-x-hidden transition duration-700">`);
     Hero($$renderer2, { guestName: data.guestName, opened });
     $$renderer2.push(`<!----> <main${attr_class("transition-all duration-700", void 0, {
       "pointer-events-none": !opened,
       "translate-y-10": !opened,
-      "opacity-40": !opened
+      "opacity-40": !opened,
+      "blur-md": !opened
     })}><div data-reveal="">`);
     CoupleSection($$renderer2);
     $$renderer2.push(`<!----></div> <div data-reveal="">`);
@@ -880,7 +970,7 @@ function _page($$renderer, $$props) {
     });
     $$renderer2.push(`<!----></div> <div data-reveal="">`);
     WishesSection($$renderer2, { wishes });
-    $$renderer2.push(`<!----></div></main></div> <audio preload="none" loop=""${attr("src", musicSrc)}></audio>`);
+    $$renderer2.push(`<!----></div></main></div> <audio preload="auto" autoplay="" loop=""${attr("src", musicSrc)}></audio>`);
     bind_props($$props, { data });
   });
 }

@@ -102,6 +102,10 @@
       "_internal.js"
     ]
   },
+  "src/lib/music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.mp3": {
+    "file": "_app/immutable/assets/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.DaBmp59u.mp3",
+    "src": "src/lib/music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.mp3"
+  },
   "src/routes/+layout.svelte": {
     "file": "entries/pages/_layout.svelte.js",
     "name": "entries/pages/_layout.svelte",
@@ -111,7 +115,7 @@
       "_renderer.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.DbHT2WQi.css"
+      "_app/immutable/assets/_layout.DArQVaUv.css"
     ]
   },
   "src/routes/+page.js": {
@@ -127,6 +131,12 @@
     "isEntry": true,
     "imports": [
       "_renderer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.fU-86Dnx.css"
+    ],
+    "assets": [
+      "_app/immutable/assets/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.DaBmp59u.mp3"
     ]
   }
 }
