@@ -2,7 +2,7 @@ import musicSrc from '$lib/music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westli
 
 export const siteConfig = {
   title: 'Renni & Reza',
-  subtitle: 'A Javanese Wedding Celebration',
+  subtitle: 'A Wedding Celebration',
   openingLine: 'Assalamu’alaikum Warahmatullahi Wabarakatuh',
   invitationLine:
     'Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam hari bahagia kami.',
