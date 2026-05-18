@@ -66,7 +66,7 @@
             <span class="mx-2 text-gold">&</span>
             {siteConfig.groom.short}
           </h1>
-      <p data-opening-item class="mx-auto mt-5 max-w-md text-sm leading-7 text-white/78">
+      <p data-opening-item class="mx-auto mt-5 max-w-md text-sm leading-7 text-white">
             {siteConfig.openingLine}
           </p>
           <div data-opening-item class="mx-auto mt-7 max-w-sm rounded-[1.75rem] border border-gold/20 bg-white/10 px-5 py-5 backdrop-blur-xl">
@@ -79,7 +79,7 @@
               {/each}
             </p>
           </div>
-      <p data-opening-item class="mx-auto mt-6 max-w-md text-sm leading-7 text-white/74">
+      <p data-opening-item class="mx-auto mt-6 max-w-md text-sm leading-7 text-white">
             {siteConfig.invitationLine}
           </p>
         </div>
