@@ -9,7 +9,7 @@ export const siteConfig = {
   dateISO: '2026-06-11T10:00:00+07:00',
   locationLabel: 'Kediaman Mempelai Wanita',
   address:
-    'Bekasi Timur Regensi, Jl. Flaminggo 9, Blok F 10/39, RT. 003 RW. 014, Kelurahan Mustikajaya, Kecamatan Mustikajaya, Kota Bekasi, Jawa Barat',
+    'Bekasi Timur Regensi, Jl. Flaminggo 9, Blok F 10/39, RT. 003 RW. 014, Kelurahan Cimuning, Kecamatan Mustikajaya, Kota Bekasi, Jawa Barat',
   mapEmbed:
     'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d991.379638828595!2d107.0197848!3d-6.3267806!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69919b150d0657%3A0xcde3c2b21ac5e3d8!2sM2FC%2B629%2C%20RT.003%2FRW.014%2C%20Cimuning%2C%20Kec.%20Mustika%20Jaya%2C%20Kota%20Bks%2C%20Jawa%20Barat%2017155!5e0!3m2!1sen!2sid!4v1779087126289!5m2!1sen!2sid',
   mapUrl: 'https://maps.app.goo.gl/tncJikzf2X5DC3KR7',
