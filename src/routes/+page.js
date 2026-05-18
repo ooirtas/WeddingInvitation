@@ -1,5 +1,6 @@
+import { redirect } from '@sveltejs/kit';
+
 export function load({ url }) {
-  return {
-    guestName: url.searchParams.get('to') || url.searchParams.get('guest') || 'Honored Guest'
-  };
+  const search = url.searchParams.toString();
+  throw redirect(307, `/invite${search ? `?${search}` : ''}`);
 }

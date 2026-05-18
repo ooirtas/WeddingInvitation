@@ -4,27 +4,24 @@
 
 :root {
   color-scheme: light;
+  --bg: #f7f0e7;
+  --paper: rgba(252, 247, 241, 0.72);
+  --line: rgba(141, 101, 69, 0.16);
+  --text: #5b4030;
+  --gold: #c69b58;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
-  @apply bg-cream font-sans text-cocoa antialiased;
-  background-image:
-    radial-gradient(circle at top left, rgba(235, 200, 193, 0.55), transparent 28%),
-    radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.18), transparent 24%),
-    linear-gradient(180deg, #fffaf6 0%, #fdf6f0 45%, #f6ede4 100%);
-}
-
-body.dark {
-  color-scheme: dark;
-  @apply bg-bark text-cream;
-  background-image:
-    radial-gradient(circle at top left, rgba(212, 175, 55, 0.12), transparent 26%),
-    radial-gradient(circle at 85% 15%, rgba(235, 200, 193, 0.1), transparent 20%),
-    linear-gradient(180deg, #2b2020 0%, #241919 45%, #1c1313 100%);
+  @apply font-sans text-cocoa antialiased;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.84), transparent 30%),
+    radial-gradient(circle at 85% 10%, rgba(198, 155, 88, 0.2), transparent 24%),
+    linear-gradient(180deg, #fdf8f2 0%, #f7efe6 42%, #f1e6da 100%);
 }
 
 body::before {
@@ -32,36 +29,59 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.22;
+  z-index: -1;
+  opacity: 0.26;
   background-image:
-    linear-gradient(45deg, rgba(212, 175, 55, 0.18) 12.5%, transparent 12.5%, transparent 50%, rgba(212, 175, 55, 0.18) 50%, rgba(212, 175, 55, 0.18) 62.5%, transparent 62.5%, transparent),
-    linear-gradient(-45deg, rgba(107, 79, 79, 0.09) 12.5%, transparent 12.5%, transparent 50%, rgba(107, 79, 79, 0.09) 50%, rgba(107, 79, 79, 0.09) 62.5%, transparent 62.5%, transparent);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 75%);
-}
-
-body.dark::before {
-  opacity: 0.12;
+    url('/batic-pattern.svg'),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.45), transparent 60%);
+  background-size: 240px 240px, auto;
+  mix-blend-mode: multiply;
 }
 
 @layer components {
-  .section-shell {
-    @apply relative mx-auto w-[min(100%-1.5rem,1120px)] py-20 md:w-[min(100%-2rem,1120px)] md:py-28;
+  .shell {
+    @apply mx-auto w-[min(100%-1.5rem,72rem)] md:w-[min(100%-3rem,72rem)];
   }
 
-  .section-title {
-    @apply font-display text-4xl font-semibold leading-tight text-cocoa dark:text-cream md:text-5xl;
-  }
-
-  .eyebrow {
-    @apply mb-3 inline-flex items-center gap-2 rounded-full border border-gold/20 bg-white/60 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.35em] text-gold backdrop-blur dark:border-gold/15 dark:bg-white/5;
+  .invitation-section {
+    @apply shell relative py-20 md:py-28;
   }
 
   .glass-card {
-    @apply rounded-[2rem] border border-white/45 bg-white/65 shadow-velvet backdrop-blur-xl dark:border-white/10 dark:bg-white/5;
+    @apply rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper)] shadow-card backdrop-blur-2xl;
   }
 
-  .ornament-ring {
-    @apply absolute h-28 w-28 rounded-full border border-gold/20;
+  .section-tag {
+    @apply inline-flex items-center gap-2 rounded-full border border-gold/20 bg-white/60 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.34em] text-gold backdrop-blur;
+  }
+
+  .section-title {
+    @apply font-display text-4xl font-semibold leading-none tracking-[0.02em] text-bark sm:text-5xl md:text-6xl;
+  }
+
+  .section-copy {
+    @apply text-sm leading-7 text-cocoa/75 sm:text-base;
+  }
+
+  .gold-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-6 py-3.5 text-sm font-semibold text-white shadow-glow transition duration-300 hover:-translate-y-0.5;
+  }
+
+  .ghost-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/45 bg-white/15 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:bg-white/25;
+  }
+
+  .soft-divider {
+    @apply mx-auto my-5 h-px w-24 bg-gradient-to-r from-transparent via-gold/50 to-transparent;
+  }
+
+  .ornament-corner {
+    @apply pointer-events-none absolute h-32 w-32 opacity-70 sm:h-40 sm:w-40;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

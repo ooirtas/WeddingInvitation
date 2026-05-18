@@ -22,15 +22,7 @@ export const events = [
     title: 'Akad Nikah',
     time: '08:00 WIB',
     date: 'Saturday, 14 February 2027',
-    location: 'Pendopo Agung Larasati, Yogyakarta',
-    note: 'A sacred ceremony with intimate family blessings and traditional Javanese touches.'
-  },
-  {
-    title: 'Wedding Reception',
-    time: '11:00 WIB - 14:00 WIB',
-    date: 'Saturday, 14 February 2027',
-    location: 'Pendopo Agung Larasati, Yogyakarta',
-    note: 'An elegant celebration of love, music, and togetherness.'
+    location: 'Kediaman Mempelai Wanita',
   }
 ];
 

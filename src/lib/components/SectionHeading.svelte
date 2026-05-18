@@ -1,15 +1,16 @@
 <script>
-  export let eyebrow = '';
+  export let tag = '';
   export let title = '';
   export let description = '';
 </script>
 
-<div class="mx-auto mb-12 max-w-3xl text-center">
-  <p class="eyebrow">{eyebrow}</p>
-  <h2 class="section-title">{title}</h2>
+<div class="mx-auto max-w-2xl text-center">
+  {#if tag}
+    <p class="section-tag">{tag}</p>
+  {/if}
+  <h2 class="section-title mt-5 text-balance">{title}</h2>
+  <div class="soft-divider"></div>
   {#if description}
-    <p class="mt-4 text-sm leading-8 text-cocoa/75 dark:text-cream/75 md:text-base">
-      {description}
-    </p>
+    <p class="section-copy text-balance">{description}</p>
   {/if}
 </div>

@@ -1,32 +1,38 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
   content: ['./src/**/*.{html,js,svelte}'],
   theme: {
     extend: {
       colors: {
-        cream: '#FDF6F0',
-        cocoa: '#6B4F4F',
-        gold: '#D4AF37',
-        blush: '#EBC8C1',
-        bronze: '#A56B4F',
-        bark: '#3F2E2E'
+        canvas: '#f7f0e7',
+        parchment: '#fcf7f1',
+        cream: '#f4eadf',
+        almond: '#e8d7c2',
+        sand: '#ccb08f',
+        gold: '#c69b58',
+        bronze: '#8e6545',
+        cocoa: '#5b4030',
+        bark: '#36261d',
+        pine: '#48573d'
       },
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
-        sans: ['Poppins', 'sans-serif']
+        display: ['"Cormorant Garamond"', '"Playfair Display"', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'Poppins', 'sans-serif']
       },
       boxShadow: {
-        glow: '0 0 0 1px rgba(212, 175, 55, 0.25), 0 24px 60px rgba(85, 52, 36, 0.18)',
-        velvet: '0 24px 80px rgba(63, 46, 46, 0.22)'
+        glow: '0 0 0 1px rgba(198, 155, 88, 0.24), 0 24px 60px rgba(88, 53, 34, 0.12)',
+        velvet: '0 28px 90px rgba(54, 38, 29, 0.15)',
+        card: '0 20px 55px rgba(73, 51, 37, 0.08)'
       },
       backgroundImage: {
-        'gold-gradient': 'linear-gradient(135deg, rgba(212, 175, 55, 0.95), rgba(240, 206, 130, 0.95))',
-        'soft-radial': 'radial-gradient(circle at top left, rgba(235, 200, 193, 0.55), transparent 32%), radial-gradient(circle at right, rgba(212, 175, 55, 0.18), transparent 26%)'
+        'gold-gradient': 'linear-gradient(135deg, #d9b06d 0%, #c5944f 50%, #b47c3f 100%)',
+        'hero-overlay': 'linear-gradient(180deg, rgba(48,31,20,0.2) 0%, rgba(48,31,20,0.7) 100%)',
+        'champagne-glow': 'radial-gradient(circle at top left, rgba(255,255,255,0.9), transparent 38%), radial-gradient(circle at 80% 10%, rgba(198, 155, 88, 0.22), transparent 30%)'
       },
       animation: {
-        floaty: 'floaty 4s ease-in-out infinite',
-        pulseSoft: 'pulseSoft 3s ease-in-out infinite'
+        floaty: 'floaty 6s ease-in-out infinite',
+        pulseSoft: 'pulseSoft 4s ease-in-out infinite',
+        slowSpin: 'slowSpin 14s linear infinite'
       },
       keyframes: {
         floaty: {
@@ -35,7 +41,11 @@ module.exports = {
         },
         pulseSoft: {
           '0%, 100%': { opacity: '0.45' },
-          '50%': { opacity: '0.8' }
+          '50%': { opacity: '0.82' }
+        },
+        slowSpin: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' }
         }
       }
     }

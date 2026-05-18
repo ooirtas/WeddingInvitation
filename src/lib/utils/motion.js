@@ -1,54 +1,71 @@
 import { animate, inView, stagger } from 'motion';
 
-export function animateHero(nodes) {
-  if (!nodes.length) {
-    return () => {};
-  }
+const easing = [0.22, 1, 0.36, 1];
 
-  animate(
-    nodes,
-    { opacity: [0, 1], transform: ['translateY(24px)', 'translateY(0px)'] },
-    { duration: 0.9, delay: stagger(0.12), easing: [0.22, 1, 0.36, 1] }
+export function setupReveal(selector = '[data-reveal]') {
+  const elements = Array.from(document.querySelectorAll(selector));
+  const cleanups = elements.map((element) =>
+    inView(
+      element,
+      () => {
+        const staggerSelector = element instanceof HTMLElement ? element.dataset.stagger : '';
+        const targets =
+          staggerSelector && element instanceof HTMLElement
+            ? Array.from(element.querySelectorAll(staggerSelector))
+            : [element];
+
+        animate(
+          targets,
+          {
+            opacity: [0, 1],
+            transform: ['translateY(28px)', 'translateY(0px)'],
+            filter: ['blur(10px)', 'blur(0px)']
+          },
+          {
+            duration: 0.9,
+            delay: targets.length > 1 ? stagger(0.08) : 0,
+            easing
+          }
+        );
+      },
+      { amount: 0.24 }
+    )
   );
 
-  return () => {};
-}
-
-export function revealOnView(selector) {
-  return inView(selector, (element) => {
-    animate(
-      element,
-      { opacity: [0, 1], transform: ['translateY(28px)', 'translateY(0px)'] },
-      { duration: 0.8, easing: [0.22, 1, 0.36, 1] }
-    );
-  });
-}
-
-export function staggerChildren(parent, selector) {
-  return inView(parent, () => {
-    const items = Array.from(parent.querySelectorAll(selector));
-    animate(
-      items,
-      { opacity: [0, 1], transform: ['translateY(26px)', 'translateY(0px)'] },
-      { duration: 0.8, delay: stagger(0.1), easing: [0.22, 1, 0.36, 1] }
-    );
-  });
-}
-
-export function parallax(node, target, distance = 80) {
-  function update() {
-    const rect = target.getBoundingClientRect();
-    const progress = Math.max(-1, Math.min(1, rect.top / window.innerHeight));
-    const offset = progress * distance * -1;
-    node.style.transform = `translate3d(0, ${offset}px, 0)`;
-  }
-
-  update();
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-
   return () => {
-    window.removeEventListener('scroll', update);
-    window.removeEventListener('resize', update);
+    cleanups.forEach((cleanup) => cleanup?.());
   };
+}
+
+export function animateOpening(node) {
+  const intro = node.querySelectorAll('[data-opening-item]');
+  const guestWords = node.querySelectorAll('.guest-word');
+
+  animate(
+    intro,
+    {
+      opacity: [0, 1],
+      transform: ['translateY(30px)', 'translateY(0px)'],
+      filter: ['blur(12px)', 'blur(0px)']
+    },
+    { duration: 0.95, delay: stagger(0.12), easing }
+  );
+
+  if (guestWords.length) {
+    animate(
+      guestWords,
+      { transform: ['translateY(105%)', 'translateY(0%)'] },
+      { duration: 0.8, delay: stagger(0.06, { start: 0.35 }), easing }
+    );
+  }
+}
+
+export function animateModal(node, visible) {
+  return animate(
+    node,
+    visible
+      ? { opacity: [0, 1], transform: ['translateY(18px) scale(0.98)', 'translateY(0px) scale(1)'] }
+      : { opacity: [1, 0], transform: ['translateY(0px) scale(1)', 'translateY(12px) scale(0.98)'] },
+    { duration: 0.32, easing }
+  );
 }

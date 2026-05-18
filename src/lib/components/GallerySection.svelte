@@ -1,68 +1,58 @@
 <script>
-  import { fade, scale } from 'svelte/transition';
   import { X } from 'lucide-svelte';
   import SectionHeading from './SectionHeading.svelte';
-  import { gallery } from '$lib/data/invitation';
+
+  export let images = [];
 
   let activeImage = null;
-
-  function openLightbox(item) {
-    activeImage = item;
-  }
-
-  function closeLightbox() {
-    activeImage = null;
-  }
 </script>
 
-<section id="gallery" class="section-shell">
+<section class="invitation-section" id="gallery">
   <SectionHeading
-    eyebrow="Gallery"
-    title="Glimpses of our sweetest moments"
-    description="A visual keepsake of the tenderness, glow, and joy that carry our story."
+    tag="Gallery"
+    title="Fragments of a love story, held in light"
+    description="Setiap bingkai menyimpan rasa syukur, doa, dan perjalanan yang membawa kami sampai di hari ini."
   />
 
-  <div class="columns-1 gap-4 sm:columns-2 lg:columns-3">
-    {#each gallery as item, index}
+  <div class="mt-10 columns-2 gap-4 space-y-4 md:columns-3">
+    {#each images as image}
       <button
-        class="group mb-4 w-full overflow-hidden rounded-[1.75rem] border border-white/50 bg-white/50 text-left shadow-velvet backdrop-blur transition duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/5"
-        on:click={() => openLightbox(item)}
+        data-reveal
+        class="group relative block w-full overflow-hidden rounded-[1.75rem] border border-white/50 bg-white/50"
+        on:click={() => (activeImage = image)}
       >
         <img
-          class="w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-          src={item.src}
-          alt={item.alt}
-          loading={index < 2 ? 'eager' : 'lazy'}
+          src={image.src}
+          alt={image.alt}
+          class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+          loading="lazy"
         />
+        <div class="absolute inset-0 bg-gradient-to-t from-bark/15 to-transparent opacity-0 transition group-hover:opacity-100"></div>
       </button>
     {/each}
   </div>
 
   {#if activeImage}
-    <div
-      class="fixed inset-0 z-[110] flex items-center justify-center bg-bark/85 p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      tabindex="0"
-      transition:fade={{ duration: 220 }}
-      on:click|self={closeLightbox}
-      on:keydown={(event) => event.key === 'Escape' && closeLightbox()}
-    >
+    <div class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <button
+        type="button"
+        class="absolute inset-0 bg-bark/75 backdrop-blur-md"
+        on:click={() => (activeImage = null)}
+        aria-label="Close image preview"
+      ></button>
       <div
-        class="relative max-w-5xl"
-        transition:scale={{ duration: 260, start: 0.96 }}
+        class="relative z-10 max-h-[90vh] max-w-4xl overflow-hidden rounded-[2rem] bg-white p-2 shadow-velvet"
+        on:click|stopPropagation
+        role="presentation"
       >
         <button
-          class="absolute right-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 text-cream"
-          on:click={closeLightbox}
+          class="absolute right-4 top-4 z-10 rounded-full bg-white/85 p-2 text-cocoa shadow-md"
+          on:click={() => (activeImage = null)}
+          aria-label="Close image"
         >
           <X size={18} />
         </button>
-        <img
-          class="max-h-[88vh] rounded-[2rem] object-contain shadow-velvet"
-          src={activeImage.src}
-          alt={activeImage.alt}
-        />
+        <img src={activeImage.src} alt={activeImage.alt} class="max-h-[86vh] w-full rounded-[1.5rem] object-cover" />
       </div>
     </div>
   {/if}
