@@ -19,20 +19,12 @@ export const siteConfig = {
   bride: {
     short: 'Renni',
     full: 'Renni Anisa Pertiwi',
-    parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini',
-    description:
-      'Anggun, hangat, dan mencintai tradisi keluarga yang dirawat dengan lembut dari generasi ke generasi.',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80'
+    parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini'
   },
   groom: {
     short: 'Reza',
     full: 'Muhammad Reza Kurniawan',
-    parents: 'Putra dari Bapak Surya Mahendra & Ibu Sekar Larasati',
-    description:
-      'Tenang, tulus, dan selalu membawa rasa aman dalam setiap langkah yang dijalani bersama.',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80'
+    parents: 'Putra dari Bapak Surya Mahendra & Ibu Sekar Larasati'
   },
   events: [
     {
