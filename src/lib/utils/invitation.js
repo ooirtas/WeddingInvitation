@@ -11,14 +11,18 @@ export function buildWhatsappMessage(baseDomain, guestName, coupleNames) {
   const link = buildInvitationLink(baseDomain, guestName);
 
   return `${[
+    '═══════════════ ❀ ❀ ❀ ═══════════════',
     'Assalamu’alaikum Warahmatullahi Wabarakatuh.',
     '',
-    'Dengan hormat kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.',
+    `Dengan hormat kami mengundang *${guestName}* untuk hadir di acara pernikahan kami.`,
     '',
-    `${coupleNames}`,
+    `*${coupleNames}*`,
     '',
-    'Buka undangan:',
-    link
+    'Buka undangan untuk info lengkap dari acara bisa mengunjungi link berikut:',
+    link,
+    '',
+    'Atas perhatian dan kehadirannya, kami mengucapkan terima kasih.',
+    'Wassalamu’alaikum Warahmatullahi Wabarakatuh.',
   ].join('\n')}`;
 }
 

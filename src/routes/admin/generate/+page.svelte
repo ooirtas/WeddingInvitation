@@ -41,6 +41,27 @@
       }
     }, 1600);
   }
+
+  function exportToExcel() {
+    const header = ['Guest', 'Link', 'WhatsApp Message'];
+    const csvContent = [
+      header.join(','),
+      ...rows.map(row => [
+        `"${row.guest.replace(/"/g, '""')}"`,
+        `"${row.link.replace(/"/g, '""')}"`,
+        `"${row.message.replace(/"/g, '""')}"`
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'guest_list.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 </script>
 
 <svelte:head>
@@ -72,9 +93,13 @@
         </label>
 
         <div class="mt-5 flex flex-wrap gap-3">
-          <button class="gold-button" on:click={() => copyText(bulkExport, 'bulk')}>
+          <button class="gold-button" on:click={exportToExcel}>
             <Download size={16} />
-            Copy Bulk Export
+            Export to Excel
+          </button>
+          <button class="rounded-full border border-gold/20 bg-white/70 px-5 py-3 text-sm font-semibold text-cocoa transition hover:border-gold hover:text-gold" on:click={() => copyText(bulkExport, 'bulk')}>
+            <Copy size={16} />
+            Copy Bulk (TSV)
           </button>
           <button class="rounded-full border border-gold/20 bg-white/70 px-5 py-3 text-sm font-semibold text-cocoa transition hover:border-gold hover:text-gold" on:click={() => copyText(rows.map((row) => row.message).join('\n\n'), 'messages')}>
             <Copy size={16} />

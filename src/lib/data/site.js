@@ -60,5 +60,5 @@ export const siteConfig = {
     }
   ],
   appScriptEndpoint: 'https://script.google.com/macros/s/AKfycbwU74J57nfnUW_nwmnX-nyXfH2e4mch8atNd3OjEtfvwas0IYAEN-TSZLZw3eCQRjZ__A/exec',
-  defaultDomain: 'https://domain.com'
+  defaultDomain: 'https://wedding-invitation-ycsg.vercel.app'
 };
