@@ -30,7 +30,7 @@ export const siteConfig = {
     {
       title: 'Akad Nikah',
       date: 'Kamis, 11 Juni 2026',
-      time: '09.00 - 11.00 WIB',
+      time: '09.00 - 17.00 WIB',
     }
   ],
   gallery: [
