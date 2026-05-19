@@ -15,7 +15,7 @@
     {#each [bride, groom] as person}
       <article data-reveal class="glass-card overflow-hidden rounded-[2rem]">
         <div class="relative aspect-[4/5] overflow-hidden">
-          <img
+          <enhanced:img
             src={person.image}
             alt={person.full}
             class="h-full w-full object-cover transition duration-700 hover:scale-105"

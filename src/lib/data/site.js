@@ -1,4 +1,12 @@
 import musicSrc from '$lib/music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.mp3';
+import brideImg from '$lib/assets/LOW06180.webp?enhanced';
+import groomImg from '$lib/assets/LOW06195.webp?enhanced';
+import gal1 from '$lib/assets/LOW06049.webp?enhanced';
+import gal2 from '$lib/assets/LOW06056.webp?enhanced';
+import gal3 from '$lib/assets/LOW06145.webp?enhanced';
+import gal4 from '$lib/assets/LOW06192.webp?enhanced';
+import gal5 from '$lib/assets/LOW06249.webp?enhanced';
+import gal6 from '$lib/assets/LOW06331.webp?enhanced';
 
 export const siteConfig = {
   title: 'Renni & Reza',
@@ -20,13 +28,13 @@ export const siteConfig = {
     short: 'Renni',
     full: 'Renni Anisa Pertiwi',
     parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini',
-    image: '/LOW06180.webp'
+    image: brideImg
   },
   groom: {
     short: 'Reza',
     full: 'Muhammad Reza Kurniawan',
     parents: 'Putra dari Bapak Achmad Zaky & Ibu Lies Yuliani',
-    image: '/LOW06195.webp'
+    image: groomImg
   },
   events: [
     {
@@ -37,27 +45,27 @@ export const siteConfig = {
   ],
   gallery: [
     {
-      src: '/LOW06049.webp',
+      src: gal1,
       alt: 'Wedding memory 1'
     },
     {
-      src: '/LOW06056.webp',
+      src: gal2,
       alt: 'Wedding memory 2'
     },
     {
-      src: '/LOW06145.webp',
+      src: gal3,
       alt: 'Wedding memory 3'
     },
     {
-      src: '/LOW06192.webp',
+      src: gal4,
       alt: 'Wedding memory 4'
     },
     {
-      src: '/LOW06249.webp',
+      src: gal5,
       alt: 'Wedding memory 5'
     },
     {
-      src: '/LOW06331.webp',
+      src: gal6,
       alt: 'Wedding memory 6'
     }
   ],

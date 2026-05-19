@@ -21,7 +21,7 @@
         class="group relative block w-full overflow-hidden rounded-[1.75rem] border border-white/50 bg-white/50"
         on:click={() => (activeImage = image)}
       >
-        <img
+        <enhanced:img
           src={image.src}
           alt={image.alt}
           class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
@@ -53,7 +53,7 @@
         >
           <X size={18} />
         </button>
-        <img src={activeImage.src} alt={activeImage.alt} class="max-h-[86vh] w-full rounded-[1.5rem] object-cover" />
+        <enhanced:img src={activeImage.src} alt={activeImage.alt} class="max-h-[86vh] w-full rounded-[1.5rem] object-cover" />
       </div>
     </div>
   {/if}

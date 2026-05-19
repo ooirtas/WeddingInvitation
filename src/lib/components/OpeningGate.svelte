@@ -69,7 +69,7 @@
     <!-- Javanese Ornament / Line -->
     <div class="absolute left-0 top-0 bottom-0 w-1 bg-gold/20"></div>
     <div class="absolute left-4 top-1/2 -translate-y-1/2 opacity-20 scale-y-150">
-      <img src="/floral-corner.svg" alt="" class="w-64 h-64 -rotate-90 scale-x-[-1]" />
+      <img src="/floral-corner.svg" alt="" class="-rotate-90 w-64 h-64 scale-x-[-1]" />
     </div>
   </div>
 

@@ -131,7 +131,7 @@
   bind:this={audio}
   {src}
   loop
-  preload="none"
+  preload="auto"
   on:timeupdate={syncState}
   on:pause={syncState}
   on:play={syncState}
