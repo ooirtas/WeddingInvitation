@@ -68,23 +68,50 @@
     }
   }
 
-  async function startPlayback() {
+  function restorePositionSync() {
+    if (!audio || !currentTime) {
+      return;
+    }
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_METADATA && Math.abs(audio.currentTime - currentTime) > 1.5) {
+      audio.currentTime = currentTime;
+    }
+  }
+
+  async function startPlayback({ userInitiated = false } = {}) {
     if (!audio) {
       return false;
     }
 
-    const isReady = await waitUntilReady();
+    audio.volume = 0.5;
 
-    if (!isReady) {
-      musicState.setPlaying(false);
-      return false;
+    if (userInitiated) {
+      // CRITICAL: call audio.play() IMMEDIATELY and synchronously within the
+      // user-gesture call stack. Browsers block play() if it is called after
+      // any await/async gap from the originating click/tap event.
+      const playPromise = audio.play();
+
+      // Restore position asynchronously after playback has started
+      if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        restorePositionSync();
+      } else if (currentTime) {
+        waitUntilReady().then(() => restorePositionSync()).catch(() => {});
+      }
+
+      await playPromise;
+    } else {
+      const isReady = await waitUntilReady();
+
+      if (!isReady) {
+        musicState.setPlaying(false);
+        return false;
+      }
+
+      await restorePosition();
+      await audio.play();
     }
 
-    await restorePosition();
-    audio.volume = 0.5;
-    await audio.play();
-    musicState.setPlaying(true);
-    musicState.persist({ playing: true, currentTime: audio.currentTime });
+    syncState();
     return true;
   }
 
@@ -102,8 +129,7 @@
       if (wasPlayingBeforeVisibilityChange) {
         try {
           await audio.play();
-          musicState.setPlaying(true);
-          musicState.persist({ playing: true, currentTime: audio.currentTime });
+          syncState();
         } catch {
           musicState.setPlaying(false);
         }
@@ -125,8 +151,6 @@
       currentTime = state.currentTime;
     });
 
-    queueMicrotask(restorePlayback);
-
     document.addEventListener('visibilitychange', handleVisibilityChange);
   });
 
@@ -144,7 +168,7 @@
 
     if (audio.paused) {
       try {
-        await startPlayback();
+        await startPlayback({ userInitiated: true });
       } catch {
         musicState.setPlaying(false);
       }
@@ -162,22 +186,9 @@
     }
 
     try {
-      await startPlayback();
+      await startPlayback({ userInitiated: true });
     } catch {
       musicState.setPlaying(false);
-    }
-  }
-
-  async function restorePlayback() {
-    if (!audio || !playing) {
-      return;
-    }
-
-    try {
-      await startPlayback();
-    } catch {
-      musicState.setPlaying(false);
-      musicState.persist({ playing: false, currentTime });
     }
   }
 

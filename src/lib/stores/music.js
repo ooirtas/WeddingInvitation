@@ -20,7 +20,9 @@ function createMusicStore() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         set({
-          playing: Boolean(saved.playing),
+          // Always resume in a paused state on a fresh page load. Browsers
+          // won't honor persisted autoplay intent reliably across sessions.
+          playing: false,
           currentTime: Number(saved.currentTime) || 0,
           hydrated: true
         });

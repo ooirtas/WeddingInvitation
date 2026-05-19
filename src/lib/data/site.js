@@ -1,4 +1,4 @@
-import musicSrc from '$lib/music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.mp3';
+import musicSrc from '$lib/music/WeddingMusic.mp3';
 import brideImg from '$lib/assets/LOW06180.webp?enhanced';
 import groomImg from '$lib/assets/LOW06195.webp?enhanced';
 import gal1 from '$lib/assets/LOW06049.webp?enhanced';

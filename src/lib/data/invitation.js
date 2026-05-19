@@ -85,6 +85,6 @@ export const initialWishes = [
   }
 ];
 
-import westlifeMusic from '../music/YTDown_YouTube_I-Wanna-Grow-Old-With-You-Westlife_Media_0LHmevWVvpc_008_128k.mp3';
+import westlifeMusic from '../music/WeddingMusic.mp3';
 
 export const musicSrc = westlifeMusic;

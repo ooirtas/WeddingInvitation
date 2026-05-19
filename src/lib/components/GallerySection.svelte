@@ -17,8 +17,11 @@
   <div class="mt-10 columns-2 gap-4 space-y-4 md:columns-3">
     {#each images as image}
       <button
+        type="button"
         data-reveal
         class="group relative block w-full overflow-hidden rounded-[1.75rem] border border-white/50 bg-white/50"
+        aria-label={`Open gallery image: ${image.alt}`}
+        title={`Open gallery image: ${image.alt}`}
         on:click={() => (activeImage = image)}
       >
         <enhanced:img
@@ -47,6 +50,7 @@
         role="presentation"
       >
         <button
+          type="button"
           class="absolute right-4 top-4 z-10 rounded-full bg-white/85 p-2 text-cocoa shadow-md"
           on:click={() => (activeImage = null)}
           aria-label="Close image"
