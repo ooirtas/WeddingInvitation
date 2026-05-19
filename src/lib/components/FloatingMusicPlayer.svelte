@@ -40,7 +40,7 @@
     musicState.hydrate();
 
     if (audio) {
-      audio.volume = 0.1; // 50%
+      audio.volume = 0.5; // 50%
     }
 
     unsubscribe = musicState.subscribe((state) => {
@@ -70,7 +70,7 @@
 
     if (audio.paused) {
       try {
-        audio.volume = 0.1;
+        audio.volume = 0.5;
         await audio.play();
         musicState.setPlaying(true);
         musicState.persist({ playing: true, currentTime: audio.currentTime });
@@ -91,7 +91,7 @@
     }
 
     try {
-      audio.volume = 0.1;
+      audio.volume = 0.5;
       await audio.play();
       musicState.setPlaying(true);
       musicState.persist({ playing: true, currentTime: audio.currentTime });

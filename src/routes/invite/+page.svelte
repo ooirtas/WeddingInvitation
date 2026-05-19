@@ -5,6 +5,7 @@
   import CountdownSection from '$lib/components/CountdownSection.svelte';
   import CoupleSection from '$lib/components/CoupleSection.svelte';
   import EventSection from '$lib/components/EventSection.svelte';
+  import GallerySection from '$lib/components/GallerySection.svelte';
   import RSVPSection from '$lib/components/RSVPSection.svelte';
   import { setupReveal } from '$lib/utils/motion';
   import { siteConfig } from '$lib/data/site';
@@ -40,7 +41,7 @@
 
 <div class="relative overflow-x-hidden">
 
-  <OpeningGate name={data.name} {opened} on:open={handleOpen} />
+  <OpeningGate guestName={currentName} {opened} on:open={handleOpen} />
 
   <main class={`transition-all duration-700 ${opened ? 'opacity-100 blur-0' : 'pointer-events-none translate-y-8 opacity-30 blur-md'}`}>
     <section class="relative min-h-screen overflow-hidden">
@@ -117,6 +118,7 @@
       mapEmbed={siteConfig.mapEmbed}
       mapUrl={siteConfig.mapUrl}
     />
+    <GallerySection images={siteConfig.gallery} />
     <RSVPSection defaultName={data.name !== 'Bapak/Ibu/Saudara/i' ? data.name : ''} />
   </main>
 </div>

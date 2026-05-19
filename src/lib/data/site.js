@@ -19,12 +19,14 @@ export const siteConfig = {
   bride: {
     short: 'Renni',
     full: 'Renni Anisa Pertiwi',
-    parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini'
+    parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini',
+    image: '/LOW06180.jpg'
   },
   groom: {
     short: 'Reza',
     full: 'Muhammad Reza Kurniawan',
-    parents: 'Putra dari Bapak Surya Mahendra & Ibu Sekar Larasati'
+    parents: 'Putra dari Bapak Achmad Zaky & Ibu Lies Yuliani',
+    image: '/LOW06195.jpg'
   },
   events: [
     {
@@ -35,28 +37,28 @@ export const siteConfig = {
   ],
   gallery: [
     {
-      src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Elegant couple portrait in warm sunlight'
+      src: '/LOW06049.jpg',
+      alt: 'Wedding memory 1'
     },
     {
-      src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Couple walking hand in hand'
+      src: '/LOW06056.jpg',
+      alt: 'Wedding memory 2'
     },
     {
-      src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Intimate smiling moment'
+      src: '/LOW06145.jpg',
+      alt: 'Wedding memory 3'
     },
     {
-      src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Reception decor with candles'
+      src: '/LOW06192.jpg',
+      alt: 'Wedding memory 4'
     },
     {
-      src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Hands, florals, and wedding rings'
+      src: '/LOW06249.jpg',
+      alt: 'Wedding memory 5'
     },
     {
-      src: 'https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Ceremonial styling detail'
+      src: '/LOW06331.jpg',
+      alt: 'Wedding memory 6'
     }
   ],
   appScriptEndpoint: 'https://script.google.com/macros/s/AKfycbwU74J57nfnUW_nwmnX-nyXfH2e4mch8atNd3OjEtfvwas0IYAEN-TSZLZw3eCQRjZ__A/exec',
