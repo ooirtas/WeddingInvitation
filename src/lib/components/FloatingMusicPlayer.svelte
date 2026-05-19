@@ -52,7 +52,10 @@
       }
     });
 
-    queueMicrotask(restorePlayback);
+    requestIdleCallback(() => {
+      restorePlayback();
+    });
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
   });
 
@@ -128,7 +131,7 @@
   bind:this={audio}
   {src}
   loop
-  preload="metadata"
+  preload="none"
   on:timeupdate={syncState}
   on:pause={syncState}
   on:play={syncState}

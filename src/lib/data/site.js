@@ -20,13 +20,13 @@ export const siteConfig = {
     short: 'Renni',
     full: 'Renni Anisa Pertiwi',
     parents: 'Putri dari Bapak Sunarno & Ibu Sri Sumarmini',
-    image: '/LOW06180.jpg'
+    image: '/LOW06180.webp'
   },
   groom: {
     short: 'Reza',
     full: 'Muhammad Reza Kurniawan',
     parents: 'Putra dari Bapak Achmad Zaky & Ibu Lies Yuliani',
-    image: '/LOW06195.jpg'
+    image: '/LOW06195.webp'
   },
   events: [
     {
@@ -37,27 +37,27 @@ export const siteConfig = {
   ],
   gallery: [
     {
-      src: '/LOW06049.jpg',
+      src: '/LOW06049.webp',
       alt: 'Wedding memory 1'
     },
     {
-      src: '/LOW06056.jpg',
+      src: '/LOW06056.webp',
       alt: 'Wedding memory 2'
     },
     {
-      src: '/LOW06145.jpg',
+      src: '/LOW06145.webp',
       alt: 'Wedding memory 3'
     },
     {
-      src: '/LOW06192.jpg',
+      src: '/LOW06192.webp',
       alt: 'Wedding memory 4'
     },
     {
-      src: '/LOW06249.jpg',
+      src: '/LOW06249.webp',
       alt: 'Wedding memory 5'
     },
     {
-      src: '/LOW06331.jpg',
+      src: '/LOW06331.webp',
       alt: 'Wedding memory 6'
     }
   ],

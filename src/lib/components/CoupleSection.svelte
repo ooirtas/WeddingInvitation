@@ -20,6 +20,7 @@
             alt={person.full}
             class="h-full w-full object-cover transition duration-700 hover:scale-105"
             loading="lazy"
+            decoding="async"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-bark/55 via-bark/10 to-transparent"></div>
         </div>

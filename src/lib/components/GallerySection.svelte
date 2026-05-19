@@ -26,6 +26,7 @@
           alt={image.alt}
           class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
           loading="lazy"
+          decoding="async"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-bark/15 to-transparent opacity-0 transition group-hover:opacity-100"></div>
       </button>
