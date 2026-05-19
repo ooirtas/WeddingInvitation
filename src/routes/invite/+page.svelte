@@ -19,10 +19,13 @@
   $: currentName = data.name || data.guestName || 'Bapak/Ibu/Saudara/i';
   $: guestWords = currentName.split(' ').filter(Boolean);
 
+  async function handleMusicStart() {
+    musicPlayer?.play();
+  }
+
   async function handleOpen() {
     opened = true;
     await tick();
-    musicPlayer?.play();
   }
 
   onMount(() => setupReveal());
@@ -41,7 +44,12 @@
 
 <div class="relative overflow-x-hidden">
 
-  <OpeningGate guestName={currentName} {opened} on:open={handleOpen} />
+  <OpeningGate
+    guestName={currentName}
+    {opened}
+    on:start={handleMusicStart}
+    on:open={handleOpen}
+  />
 
   <main class={`transition-all duration-700 ${opened ? 'opacity-100 blur-0' : 'pointer-events-none translate-y-8 opacity-30 blur-md'}`}>
     <section class="relative min-h-screen overflow-hidden">

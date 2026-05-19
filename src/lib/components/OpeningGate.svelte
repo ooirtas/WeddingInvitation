@@ -18,6 +18,7 @@
 
   async function handleOpen() {
     // Lock scroll is handled on mount, we unlock it here after animation
+    dispatch('start');
     
     // Fade out center content first
     await animate(content, { opacity: 0, transform: 'scale(0.95)' }, { duration: 0.5, easing: [0.22, 1, 0.36, 1] });
@@ -110,7 +111,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Add any specific styles if needed */
-</style>
