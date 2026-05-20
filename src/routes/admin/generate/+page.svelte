@@ -18,7 +18,7 @@
 
   $: rows = guests.map((guest) => {
     const link = buildInvitationLink(baseDomain, guest);
-    const message = buildWhatsappMessage(baseDomain, guest, `${siteConfig.bride.short} & ${siteConfig.groom.short}`);
+    const message = buildWhatsappMessage(baseDomain, guest);
 
     return {
       guest,
