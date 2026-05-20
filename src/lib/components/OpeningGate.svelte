@@ -84,11 +84,17 @@
       
       <h1 class="mt-6 font-display text-5xl sm:text-6xl text-bark leading-none">
         {siteConfig.bride.short}
+        <div class="mt-4 text-base leading-relaxed text-cocoa/80">
+          <p>{siteConfig.bride.parents}</p>
+        </div>
         <span class="font-sans text-3xl text-gold block my-2">&</span>
         {siteConfig.groom.short}
+        <div class="mt-4 text-base leading-relaxed text-cocoa/80">
+          <p>{siteConfig.groom.parents}</p>
+        </div>
       </h1>
 
-      <p class="mt-4 text-sm uppercase tracking-[0.24em] text-cocoa/70">
+      <p class="mt-6 text-sm uppercase tracking-[0.24em] text-cocoa/70">
         {siteConfig.subtitle}
       </p>
 
