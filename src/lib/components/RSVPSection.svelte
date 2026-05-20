@@ -78,12 +78,12 @@
     <aside data-reveal class="glass-card rounded-[2rem] p-6 sm:p-8">
       <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Info RSVP</p>
       <h3 class="mt-3 font-display text-4xl text-bark">Bantu kami menyiapkan momen terbaik</h3>
-      <p class="mt-5 text-sm leading-7 text-cocoa/76">
+      <p class="mt-5 text-base leading-7 text-cocoa/76">
         Setiap kehadiran memiliki arti yang begitu berharga bagi kami.
 Dengan penuh harapan, kami mengundang Anda untuk mengisi harapan dan doa untuk kami di bawah ini sebagai bentuk konfirmasi kehadiran pada momen bahagia kami.
       </p>
       {#if !siteConfig.appScriptEndpoint}
-      <div class="mt-6 rounded-[1.5rem] border border-gold/15 bg-white/55 p-5 text-sm leading-7 text-cocoa/72">
+      <div class="mt-6 rounded-[1.5rem] border border-gold/15 bg-white/55 p-5 text-base leading-7 text-cocoa/72">
         Gunakan environment variable `PUBLIC_GAS_RSVP_ENDPOINT` atau isi `appScriptEndpoint` di
         [site.js](/abs/path/c:/Users/satrio.muhammad_idst/Documents/weddingInvitation/src/lib/data/site.js).
       </div>
@@ -147,7 +147,7 @@ Dengan penuh harapan, kami mengundang Anda untuk mengisi harapan dan doa untuk k
         <CheckCircle2 size={30} />
       </span>
       <h3 class="mt-5 font-display text-4xl text-bark">Terima kasih</h3>
-      <p class="mt-3 text-sm leading-7 text-cocoa/75">
+      <p class="mt-3 text-base leading-7 text-cocoa/75">
         RSVP Anda sudah kami terima. Sampai jumpa di hari bahagia kami.
       </p>
       <button class="gold-button mt-6" on:click={() => (showSuccess = false)}>Tutup</button>

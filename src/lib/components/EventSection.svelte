@@ -28,7 +28,7 @@
             <span class="rounded-full bg-gold/10 px-4 py-2 text-sm font-medium text-bronze">{event.time}</span>
           </div>
 
-          <div class="mt-6 grid gap-4 text-sm text-cocoa/78">
+          <div class="mt-6 grid gap-4 text-base text-cocoa/78">
             <p class="flex items-start gap-3">
               <CalendarDays size={18} class="mt-0.5 text-gold" />
               <span>{event.date}</span>
@@ -43,7 +43,7 @@
             </p>
           </div>
 
-          <p class="mt-6 text-sm leading-7 text-cocoa/72">{event.note}</p>
+          <p class="mt-6 text-base leading-7 text-cocoa/72">{event.note}</p>
         </article>
       {/each}
     </div>
@@ -60,7 +60,7 @@
       <div class="p-4 sm:p-5">
         <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Location</p>
         <h3 class="mt-3 font-display text-3xl text-bark">{location}</h3>
-        <p class="mt-3 text-sm leading-7 text-cocoa/76">{address}</p>
+        <p class="mt-3 text-base leading-7 text-cocoa/76">{address}</p>
         <a
           class="gold-button mt-5"
           href={mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location} ${address}`)}`}

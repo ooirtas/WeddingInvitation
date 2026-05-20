@@ -25,10 +25,10 @@
           <div class="absolute inset-0 bg-gradient-to-t from-bark/55 via-bark/10 to-transparent"></div>
         </div>
         <div class="p-6 sm:p-8">
-          <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Mempelai</p>
+          <p class="text-lg uppercase tracking-[0.34em] text-gold">Mempelai</p>
           <h3 class="mt-3 font-display text-4xl text-bark">{person.full}</h3>
-          <p class="mt-3 text-sm leading-7 text-cocoa/80">{person.parents}</p>
-          <p class="mt-4 text-sm leading-7 text-cocoa/72">{person.description}</p>
+          <p class="mt-3 text-base leading-7 text-cocoa/80">{person.parents}</p>
+          <p class="mt-4 text-base leading-7 text-cocoa/72">{person.description}</p>
         </div>
       </article>
     {/each}

@@ -75,7 +75,7 @@
             <span class="mx-2 text-gold">&</span>
             {siteConfig.groom.short}
           </h1>
-      <p data-opening-item class="mx-auto mt-5 max-w-md text-sm leading-7 text-white">
+      <p data-opening-item class="mx-auto mt-5 max-w-md text-base leading-7 text-white">
             {siteConfig.openingLine}
           </p>
           <div data-opening-item class="mx-auto mt-7 max-w-sm rounded-[1.75rem] border border-gold/20 bg-white/10 px-5 py-5 backdrop-blur-xl">
@@ -88,7 +88,7 @@
               {/each}
             </p>
           </div>
-      <p data-opening-item class="mx-auto mt-6 max-w-md text-sm leading-7 text-white">
+      <p data-opening-item class="mx-auto mt-6 max-w-md text-base leading-7 text-white">
             {siteConfig.invitationLine}
           </p>
         </div>
@@ -99,7 +99,7 @@
       <div data-reveal class="glass-card rounded-[2.25rem] px-6 py-8 text-center shadow-velvet sm:px-8">
         <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Personal Invitation</p>
         <h2 class="mt-4 font-display text-4xl text-bark sm:text-5xl">Dear {currentName}</h2>
-        <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-cocoa/76">
+        <p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-cocoa/76">
           Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir untuk
           memberikan doa restu pada acara pernikahan kami.
         </p>
@@ -108,10 +108,10 @@
 
     <section class="shell relative z-10 py-12 text-center">
       <div data-reveal class="max-w-2xl mx-auto space-y-4">
-        <p class="text-cocoa/80 text-sm leading-7 font-serif italic">
+        <p class="text-cocoa/80 text-base leading-7 font-serif italic">
           "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
         </p>
-        <p class="text-gold font-semibold uppercase tracking-[0.2em] text-xs">
+        <p class="text-gold font-semibold uppercase tracking-[0.2em] text-base">
           Q.S Ar-Rum : 21
         </p>
       </div>
