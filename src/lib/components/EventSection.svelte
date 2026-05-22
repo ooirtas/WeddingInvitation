@@ -92,7 +92,7 @@
     <div data-reveal>
       <div class="glass-card h-full overflow-hidden rounded-[32px] border border-gold/15 bg-white/50 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.05)] backdrop-blur-lg">
         
-        <div class="relative h-[320px] overflow-hidden rounded-[28px] border border-gold/15 sm:h-[420px] lg:h-full lg:min-h-[100%]">
+        <div class="relative h-[320px] overflow-hidden rounded-[28px] border border-gold/15 sm:h-[420px] lg:h-[480px]">
 
           <!-- Decorative Glow -->
           <div class="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-white/10 via-transparent to-black/5"></div>

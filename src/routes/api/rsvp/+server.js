@@ -15,11 +15,29 @@ export async function POST({ request, fetch }) {
   try {
     const payload = await request.json();
 
+    let attendance = payload.attendance || '';
+    if (!attendance && payload.status) {
+      const statusMap = {
+        'hadir': 'Hadir',
+        'ragu': 'Masih Ragu',
+        'tidak_hadir': 'Tidak Hadir'
+      };
+      attendance = statusMap[payload.status] || payload.status;
+    }
+
+    let guestCount = payload.guestCount;
+    if (guestCount === undefined && payload.pax !== undefined) {
+      guestCount = payload.pax;
+    }
+    if (attendance === 'Tidak Hadir' || payload.status === 'tidak_hadir') {
+      guestCount = 0;
+    }
+
     const form = new URLSearchParams({
       timestamp: new Date().toISOString(),
       name: payload.name || '',
-      attendance: payload.attendance || '',
-      guestCount: String(payload.guestCount || ''),
+      attendance: attendance,
+      guestCount: String(guestCount !== undefined ? guestCount : ''),
       message: payload.message || ''
     });
 

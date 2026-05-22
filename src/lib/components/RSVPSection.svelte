@@ -117,6 +117,9 @@
                 >
                   <option value={1}>1 Orang</option>
                   <option value={2}>2 Orang</option>
+                  <option value={3}>3 Orang</option>
+                  <option value={4}>4 Orang</option>
+                  <option value={5}>5 Orang</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gold/60">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
