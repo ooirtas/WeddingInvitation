@@ -1,11 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220" fill="none">
-  <g opacity="0.75">
-    <path d="M28 192C58 150 76 120 84 86C92 52 118 28 154 20" stroke="#C69B58" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M36 156C74 156 104 128 108 92" stroke="#8E6545" stroke-width="1.8" stroke-linecap="round" opacity="0.75"/>
-    <path d="M62 126C92 126 120 106 128 74" stroke="#C69B58" stroke-width="1.8" stroke-linecap="round" opacity="0.65"/>
-    <path d="M146 24C144 46 132 62 116 72C134 76 150 88 160 106C162 82 176 58 196 44C176 42 158 34 146 24Z" fill="#E8D7C2"/>
-    <path d="M112 76C108 94 94 108 74 116C94 122 110 136 118 156C122 136 136 118 156 110C136 104 120 92 112 76Z" fill="#F4EADF"/>
-    <circle cx="151" cy="102" r="11" fill="#C69B58" opacity="0.22"/>
-    <circle cx="86" cy="118" r="8" fill="#8E6545" opacity="0.14"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Premium Floral Corner Ornament -->
+  <g opacity="0.85">
+    <!-- Main outer flourishing curve -->
+    <path d="M10 190 C40 150, 70 120, 90 80 C110 40, 150 20, 190 10" stroke="#c69b58" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Secondary curves -->
+    <path d="M25 150 C55 150, 90 120, 95 80" stroke="#c69b58" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    <path d="M50 120 C80 120, 110 90, 120 50" stroke="#c69b58" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    
+    <!-- Intricate Floral Leaves -->
+    <path d="M140 30 C130 50, 120 70, 100 80 C120 85, 140 100, 150 120 C155 90, 175 60, 190 45 C170 40, 150 35, 140 30 Z" fill="#c69b58" opacity="0.4"/>
+    <path d="M100 80 C95 100, 80 115, 60 125 C80 130, 95 145, 105 165 C110 140, 125 120, 145 110 C125 105, 110 90, 100 80 Z" fill="#c69b58" opacity="0.25"/>
+    
+    <!-- Delicate spirals -->
+    <path d="M140 30 C150 20, 160 25, 165 35 C170 45, 160 55, 150 50" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.8"/>
+    <path d="M100 80 C110 70, 120 75, 125 85 C130 95, 120 105, 110 100" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.8"/>
+    
+    <!-- Accent dots -->
+    <circle cx="150" cy="120" r="4" fill="#c69b58" opacity="0.6"/>
+    <circle cx="105" cy="165" r="3" fill="#c69b58" opacity="0.5"/>
+    <circle cx="190" cy="45" r="3" fill="#c69b58" opacity="0.5"/>
+    <circle cx="145" cy="110" r="2" fill="#c69b58" opacity="0.4"/>
+    <circle cx="60" cy="125" r="2" fill="#c69b58" opacity="0.4"/>
   </g>
 </svg>

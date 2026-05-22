@@ -44,14 +44,12 @@ const elements = {
   backgroundMusic: document.getElementById("backgroundMusic"),
   musicToggle: document.getElementById("musicToggle"),
   guestName: document.getElementById("guestName"),
-  themeToggle: document.getElementById("themeToggle"),
   menuToggle: document.getElementById("menuToggle"),
   navLinks: document.getElementById("navLinks")
 };
 
 function init() {
   hydrateGuestName();
-  hydrateTheme();
   hydrateWishes();
   renderWishes();
   updateCountdown();
@@ -80,26 +78,7 @@ function hydrateGuestName() {
   }
 }
 
-function hydrateTheme() {
-  const savedTheme = localStorage.getItem("weddingTheme");
-  if (savedTheme === "dark") {
-    document.body.dataset.theme = "dark";
-    elements.themeToggle.firstElementChild.textContent = "Dark";
-  }
 
-  elements.themeToggle.addEventListener("click", () => {
-    const isDark = document.body.dataset.theme === "dark";
-    if (isDark) {
-      delete document.body.dataset.theme;
-      localStorage.setItem("weddingTheme", "light");
-      elements.themeToggle.firstElementChild.textContent = "Light";
-    } else {
-      document.body.dataset.theme = "dark";
-      localStorage.setItem("weddingTheme", "dark");
-      elements.themeToggle.firstElementChild.textContent = "Dark";
-    }
-  });
-}
 
 function hydrateWishes() {
   const saved = localStorage.getItem(storageKey);

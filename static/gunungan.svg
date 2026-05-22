@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" fill="none">
+  <!-- Deeper, richer gold fill with intricate tree of life elements -->
+  <path d="M100 5 C45 95, 15 195, 15 285 L185 285 C185 195, 155 95, 100 5 Z" fill="rgba(198,155,88,0.12)" stroke="#c69b58" stroke-width="2.5"/>
+  <path d="M100 20 C65 105, 35 190, 35 285 L165 285 C165 190, 135 105, 100 20 Z" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="3 4"/>
+  
+  <!-- Intricate Tree of Life (Pohon Hayat) -->
+  <path d="M100 285 V120" stroke="#c69b58" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Lower branches -->
+  <path d="M100 220 Q60 190 70 140 Q80 160 100 170" stroke="#c69b58" stroke-width="2.5" fill="none"/>
+  <path d="M100 220 Q140 190 130 140 Q120 160 100 170" stroke="#c69b58" stroke-width="2.5" fill="none"/>
+  
+  <!-- Middle branches -->
+  <path d="M100 170 Q50 140 60 90 Q75 110 100 125" stroke="#c69b58" stroke-width="2" fill="none"/>
+  <path d="M100 170 Q150 140 140 90 Q125 110 100 125" stroke="#c69b58" stroke-width="2" fill="none"/>
+
+  <!-- Upper flourishes -->
+  <path d="M100 125 Q75 90 85 50" stroke="#c69b58" stroke-width="1.5" fill="none"/>
+  <path d="M100 125 Q125 90 115 50" stroke="#c69b58" stroke-width="1.5" fill="none"/>
+  
+  <!-- Ornamental Leaves/Petals -->
+  <path d="M100 20 L95 30 L100 40 L105 30 Z" fill="#c69b58" opacity="0.8"/>
+  <circle cx="85" cy="50" r="3" fill="#c69b58"/>
+  <circle cx="115" cy="50" r="3" fill="#c69b58"/>
+  <circle cx="60" cy="90" r="4" fill="#c69b58"/>
+  <circle cx="140" cy="90" r="4" fill="#c69b58"/>
+  <circle cx="70" cy="140" r="5" fill="#c69b58"/>
+  <circle cx="130" cy="140" r="5" fill="#c69b58"/>
+
+  <!-- Base structure (Gapura/Gate) -->
+  <path d="M65 250 L135 250 L140 285 L60 285 Z" fill="rgba(198,155,88,0.2)" stroke="#c69b58" stroke-width="2"/>
+  <rect x="75" y="250" width="50" height="35" stroke="#c69b58" stroke-width="1.5" fill="none"/>
+  <path d="M100 250 V285" stroke="#c69b58" stroke-width="2"/>
+  
+  <!-- Decorative dots along the border -->
+  <circle cx="100" cy="10" r="2" fill="#c69b58"/>
+  <circle cx="15" cy="285" r="2" fill="#c69b58"/>
+  <circle cx="185" cy="285" r="2" fill="#c69b58"/>
+</svg>

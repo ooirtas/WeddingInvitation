@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" fill="none">
+  <!-- Premium Javanese-style ornamental divider -->
+  
+  <!-- Center Medallion -->
+  <path d="M150 2 L162 20 L150 38 L138 20Z" fill="#c69b58" opacity="0.7"/>
+  <path d="M150 8 L156 20 L150 32 L144 20Z" fill="#fff" opacity="0.5"/>
+  <circle cx="150" cy="20" r="3" fill="#c69b58"/>
+  
+  <!-- Center Floral Flourishes -->
+  <path d="M138 20 Q125 10 130 20 Q125 30 138 20 Z" fill="#c69b58" opacity="0.5"/>
+  <path d="M162 20 Q175 10 170 20 Q175 30 162 20 Z" fill="#c69b58" opacity="0.5"/>
+
+  <!-- Left Symmetrical Arms -->
+  <path d="M125 20 Q100 10 75 20" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M125 20 Q100 30 75 20" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.6"/>
+  <line x1="10" y1="20" x2="75" y2="20" stroke="#c69b58" stroke-width="1" opacity="0.5"/>
+  <line x1="20" y1="16" x2="65" y2="16" stroke="#c69b58" stroke-width="0.5" opacity="0.3"/>
+  <line x1="20" y1="24" x2="65" y2="24" stroke="#c69b58" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Left Dots & Accents -->
+  <circle cx="15" cy="20" r="2" fill="#c69b58" opacity="0.6"/>
+  <circle cx="35" cy="20" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="55" cy="20" r="2" fill="#c69b58" opacity="0.5"/>
+  <path d="M90 15 L95 20 L90 25" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.5"/>
+
+  <!-- Right Symmetrical Arms -->
+  <path d="M175 20 Q200 10 225 20" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M175 20 Q200 30 225 20" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.6"/>
+  <line x1="225" y1="20" x2="290" y2="20" stroke="#c69b58" stroke-width="1" opacity="0.5"/>
+  <line x1="235" y1="16" x2="280" y2="16" stroke="#c69b58" stroke-width="0.5" opacity="0.3"/>
+  <line x1="235" y1="24" x2="280" y2="24" stroke="#c69b58" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Right Dots & Accents -->
+  <circle cx="285" cy="20" r="2" fill="#c69b58" opacity="0.6"/>
+  <circle cx="265" cy="20" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="245" cy="20" r="2" fill="#c69b58" opacity="0.5"/>
+  <path d="M210 15 L205 20 L210 25" stroke="#c69b58" stroke-width="1" fill="none" opacity="0.5"/>
+</svg>

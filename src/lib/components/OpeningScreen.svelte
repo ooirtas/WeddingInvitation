@@ -22,8 +22,8 @@
     style={`background-image:linear-gradient(180deg, rgba(42,24,15,0.16), rgba(42,24,15,0.72)), url('${siteConfig.heroImage}')`}
   ></div>
   <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),transparent_24%),linear-gradient(135deg,rgba(198,155,88,0.1),transparent_40%)]"></div>
-  <img src="/floral-corner.svg" alt="" class="ornament-corner left-0 top-0 rotate-180" />
-  <img src="/floral-corner.svg" alt="" class="ornament-corner bottom-0 right-0" />
+  <img src="/javanese-corner.svg" alt="" class="ornament-corner left-0 top-0 rotate-180" />
+  <img src="/javanese-corner.svg" alt="" class="ornament-corner bottom-0 right-0" />
 
   <div class="shell relative z-10 flex min-h-screen items-center py-8">
     <div bind:this={root} class="glass-card mx-auto w-full max-w-xl px-6 py-10 text-center text-white sm:px-8 sm:py-12">

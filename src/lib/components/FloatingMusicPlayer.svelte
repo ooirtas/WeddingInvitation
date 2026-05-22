@@ -1,205 +1,38 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
-  import { Pause, Play, Disc3 } from 'lucide-svelte';
-  import { browser } from '$app/environment';
+  import { onMount } from 'svelte';
+  import { Volume2, VolumeX, Music } from 'lucide-svelte';
   import { musicState } from '$lib/stores/music';
 
-  export let src = '';
-
+  export let src;
+  
   let audio;
-  let playing = false;
-  let currentTime = 0;
-  let unsubscribe = () => {};
-  let wasPlayingBeforeVisibilityChange = false;
-  let readyPromise;
+  let showLabel = true;
 
-  function once(target, event) {
-    return new Promise((resolve) => {
-      const handler = () => {
-        target.removeEventListener(event, handler);
-        resolve();
-      };
-
-      target.addEventListener(event, handler, { once: true });
-    });
+  export function play() {
+    audio?.play().catch(console.error);
+    musicState.setPlaying(true);
+    
+    // Hide label after starting to play
+    setTimeout(() => {
+      showLabel = false;
+    }, 3000);
   }
 
-  async function waitUntilReady() {
-    if (!audio) {
-      return false;
-    }
-
-    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-      return true;
-    }
-
-    if (!readyPromise) {
-      readyPromise = Promise.race([
-        once(audio, 'canplay'),
-        once(audio, 'loadedmetadata'),
-        once(audio, 'error')
-      ]).finally(() => {
-        readyPromise = null;
-      });
-    }
-
-    await readyPromise;
-    return audio.readyState > 0;
-  }
-
-  async function restorePosition() {
-    if (!audio) {
-      return;
-    }
-
-    if (!currentTime) {
-      audio.currentTime = 0;
-      return;
-    }
-
-    const isReady = await waitUntilReady();
-
-    if (!isReady) {
-      return;
-    }
-
-    if (Math.abs(audio.currentTime - currentTime) > 1.5) {
-      audio.currentTime = currentTime;
-    }
-  }
-
-  function restorePositionSync() {
-    if (!audio || !currentTime) {
-      return;
-    }
-
-    if (audio.readyState >= HTMLMediaElement.HAVE_METADATA && Math.abs(audio.currentTime - currentTime) > 1.5) {
-      audio.currentTime = currentTime;
-    }
-  }
-
-  async function startPlayback({ userInitiated = false } = {}) {
-    if (!audio) {
-      return false;
-    }
-
-    audio.volume = 0.5;
-
-    if (userInitiated) {
-      // CRITICAL: call audio.play() IMMEDIATELY and synchronously within the
-      // user-gesture call stack. Browsers block play() if it is called after
-      // any await/async gap from the originating click/tap event.
-      const playPromise = audio.play();
-
-      // Restore position asynchronously after playback has started
-      if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        restorePositionSync();
-      } else if (currentTime) {
-        waitUntilReady().then(() => restorePositionSync()).catch(() => {});
-      }
-
-      await playPromise;
+  function toggle() {
+    if ($musicState.playing) {
+      audio?.pause();
+      musicState.setPlaying(false);
     } else {
-      const isReady = await waitUntilReady();
-
-      if (!isReady) {
-        musicState.setPlaying(false);
-        return false;
-      }
-
-      await restorePosition();
-      await audio.play();
-    }
-
-    syncState();
-    return true;
-  }
-
-  async function handleVisibilityChange() {
-    if (!audio) return;
-
-    if (document.visibilityState === 'hidden') {
-      if (playing) {
-        wasPlayingBeforeVisibilityChange = true;
-        audio.pause();
-        musicState.setPlaying(false);
-        musicState.persist({ playing: false, currentTime: audio.currentTime });
-      }
-    } else if (document.visibilityState === 'visible') {
-      if (wasPlayingBeforeVisibilityChange) {
-        try {
-          await audio.play();
-          syncState();
-        } catch {
-          musicState.setPlaying(false);
-        }
-        wasPlayingBeforeVisibilityChange = false;
-      }
+      audio?.play().catch(console.error);
+      musicState.setPlaying(true);
     }
   }
 
   onMount(() => {
-    musicState.hydrate();
-
-    if (audio) {
-      audio.volume = 0.5; // 50%
-      audio.load();
-    }
-
-    unsubscribe = musicState.subscribe((state) => {
-      playing = state.playing;
-      currentTime = state.currentTime;
-    });
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    // Sync internal state if audio pauses externally (e.g. system interrupt)
+    audio.addEventListener('pause', () => musicState.setPlaying(false));
+    audio.addEventListener('play', () => musicState.setPlaying(true));
   });
-
-  onDestroy(() => {
-    unsubscribe();
-    if (browser) {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
-  });
-
-  async function toggle() {
-    if (!audio) {
-      return;
-    }
-
-    if (audio.paused) {
-      try {
-        await startPlayback({ userInitiated: true });
-      } catch {
-        musicState.setPlaying(false);
-      }
-      return;
-    }
-
-    audio.pause();
-    musicState.setPlaying(false);
-    musicState.persist({ playing: false, currentTime: audio.currentTime });
-  }
-
-  export async function play() {
-    if (!audio) {
-      return;
-    }
-
-    try {
-      await startPlayback({ userInitiated: true });
-    } catch {
-      musicState.setPlaying(false);
-    }
-  }
-
-  function syncState() {
-    if (!audio) {
-      return;
-    }
-
-    musicState.setCurrentTime(audio.currentTime);
-    musicState.persist({ playing: !audio.paused, currentTime: audio.currentTime });
-  }
 </script>
 
 <audio
@@ -207,24 +40,30 @@
   {src}
   loop
   preload="auto"
-  playsinline
-  on:timeupdate={syncState}
-  on:pause={syncState}
-  on:play={syncState}
 ></audio>
 
-<button
-  class="fixed bottom-4 right-4 z-50 inline-flex items-center gap-3 rounded-full border border-white/60 bg-white/80 px-4 py-3 text-sm font-medium text-cocoa shadow-velvet backdrop-blur-xl transition hover:-translate-y-0.5"
-  on:click={toggle}
-  aria-label={playing ? 'Pause music' : 'Play music'}
->
-  <span class={`rounded-full bg-cocoa/5 p-2 text-gold ${playing ? 'animate-slowSpin' : ''}`}>
-    <Disc3 size={18} />
-  </span>
-  <span>{playing ? 'Pause music' : 'Play music'}</span>
-  {#if playing}
-    <Pause size={16} />
-  {:else}
-    <Play size={16} />
+<div class="fixed bottom-6 right-6 z-[90] flex items-center gap-4">
+  {#if showLabel}
+    <div class="hidden sm:flex items-center gap-2 rounded-full bg-bark/80 backdrop-blur-md px-4 py-2 border border-gold/30 text-ivory text-xs uppercase tracking-widest shadow-luxury animate-fadeUpSlow">
+      <Music size={14} class="text-gold" />
+      Lagu Dimainkan
+    </div>
   {/if}
-</button>
+  
+  <button
+    on:click={toggle}
+    class="group relative flex h-14 w-14 items-center justify-center rounded-full bg-bark/90 border border-gold/40 text-ivory shadow-[0_10px_25px_rgba(42,31,26,0.4)] backdrop-blur-md transition-all hover:scale-110 hover:bg-bark hover:border-gold z-10"
+    aria-label={$musicState.playing ? "Pause music" : "Play music"}
+  >
+    <!-- Spinning border effect when playing -->
+    {#if $musicState.playing}
+      <div class="absolute -inset-1 rounded-full border border-gold/30 border-t-gold/80 animate-slowSpin pointer-events-none"></div>
+    {/if}
+
+    {#if $musicState.playing}
+      <Volume2 size={24} class="text-gold transition-transform group-hover:scale-110" />
+    {:else}
+      <VolumeX size={24} class="text-ivory/70 transition-transform group-hover:scale-110" />
+    {/if}
+  </button>
+</div>

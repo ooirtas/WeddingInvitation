@@ -4,11 +4,11 @@
 
 :root {
   color-scheme: light;
-  --bg: #f7f0e7;
-  --paper: rgba(252, 247, 241, 0.72);
-  --line: rgba(141, 101, 69, 0.16);
-  --text: #5b4030;
-  --gold: #c69b58;
+  --bg: #FAF7F2;
+  --paper: rgba(255, 255, 255, 0.85);
+  --line: rgba(197, 160, 89, 0.25);
+  --text: #2A1F1A;
+  --gold: #C5A059;
 }
 
 html {
@@ -17,11 +17,11 @@ html {
 }
 
 body {
-  @apply font-sans text-cocoa antialiased;
+  @apply font-sans text-deepCocoa antialiased;
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.84), transparent 30%),
-    radial-gradient(circle at 85% 10%, rgba(198, 155, 88, 0.2), transparent 24%),
-    linear-gradient(180deg, #fdf8f2 0%, #f7efe6 42%, #f1e6da 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(197, 160, 89, 0.15), transparent 30%),
+    linear-gradient(180deg, #FAF7F2 0%, #F3EFE9 50%, #EAE4DA 100%);
 }
 
 body::before {
@@ -30,58 +30,92 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.26;
+  opacity: 0.12;
   background-image:
-    url('/batic-pattern.svg'),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.45), transparent 60%);
-  background-size: 240px 240px, auto;
+    url('/batik-parang.svg'),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.8), transparent 80%);
+  background-size: 200px 200px, auto;
   mix-blend-mode: multiply;
 }
 
 @layer components {
   .shell {
-    @apply mx-auto w-[min(100%-1.5rem,72rem)] md:w-[min(100%-3rem,72rem)];
+    @apply mx-auto w-[min(100%-1.5rem,76rem)] md:w-[min(100%-3rem,76rem)];
   }
 
   .invitation-section {
-    @apply shell relative py-20 md:py-28;
+    @apply shell relative py-24 md:py-36;
   }
 
   .glass-card {
-    @apply rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper)] shadow-card backdrop-blur-2xl;
+    @apply rounded-xl border bg-[color:var(--paper)] shadow-luxury backdrop-blur-2xl relative;
+    border-color: rgba(197, 160, 89, 0.3) !important;
+  }
+
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-2 border rounded-[6px] pointer-events-none;
+    border-color: rgba(197, 160, 89, 0.15) !important;
+    z-index: 1;
   }
 
   .section-tag {
-    @apply inline-flex items-center gap-2 rounded-full border border-gold/20 bg-white/60 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.34em] text-gold backdrop-blur;
+    @apply inline-flex items-center gap-2 rounded-full border border-gold/30 bg-white/70 px-5 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.38em] text-deepGold backdrop-blur shadow-sm;
   }
 
   .section-title {
-    @apply font-display text-4xl font-semibold leading-none tracking-[0.02em] text-bark sm:text-5xl md:text-6xl;
+    @apply font-display text-4xl font-semibold leading-tight tracking-[0.03em] text-bark sm:text-5xl md:text-6xl;
   }
 
   .section-copy {
-    @apply text-base leading-7 text-cocoa/75;
+    @apply text-base md:text-lg leading-8 text-deepCocoa/80 font-light;
   }
 
   .gold-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-6 py-3.5 text-sm font-semibold text-white shadow-glow transition duration-300 hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-shimmer px-7 py-4 text-[0.85rem] uppercase tracking-widest font-medium text-white shadow-luxury transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(197,160,89,0.3)];
   }
 
   .ghost-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/45 bg-white/15 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:bg-white/25;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/20 px-7 py-4 text-[0.85rem] uppercase tracking-widest font-medium text-white backdrop-blur-md shadow-glass transition-all duration-500 hover:bg-white/30 hover:-translate-y-1;
   }
 
   .soft-divider {
-    @apply mx-auto my-5 h-px w-24 bg-gradient-to-r from-transparent via-gold/50 to-transparent;
+    @apply mx-auto my-8 h-10 w-72 bg-contain bg-center bg-no-repeat opacity-80;
+    background-image: url('/javanese-divider.svg');
+  }
+
+  .premium-divider {
+    @apply mx-auto my-12 h-12 w-80 bg-contain bg-center bg-no-repeat opacity-90;
+    background-image: url('/javanese-divider.svg');
   }
 
   .ornament-corner {
-    @apply pointer-events-none absolute h-32 w-32 opacity-70 sm:h-40 sm:w-40;
+    @apply pointer-events-none absolute h-36 w-36 opacity-75 sm:h-48 sm:w-48;
+  }
+  
+  .image-frame {
+    @apply relative p-3 bg-white/40 backdrop-blur-sm border border-gold/20 rounded-2xl shadow-elevated;
+  }
+  
+  .image-frame::after {
+    content: '';
+    @apply absolute inset-0 rounded-2xl pointer-events-none;
+    background-image: url('/ornamental-frame.svg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.8;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .text-script {
+    font-family: 'Great Vibes', cursive;
+  }
+  .text-verse {
+    font-family: 'Lora', serif;
   }
 }

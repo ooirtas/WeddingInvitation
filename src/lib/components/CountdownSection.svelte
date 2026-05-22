@@ -1,67 +1,87 @@
 <script>
-  import { onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import SectionHeading from './SectionHeading.svelte';
-  import { siteConfig } from '$lib/data/site';
+  import { CalendarDays } from 'lucide-svelte';
 
-  export let targetDate = '';
+  export let targetDate;
 
-  const labels = ['Hari', 'Jam', 'Menit', 'Detik'];
-  let countdown = [0, 0, 0, 0];
+  let days = 0;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+  let timer;
 
   function updateCountdown() {
-    const diff = new Date(targetDate).getTime() - Date.now();
-    const remaining = Math.max(diff, 0);
+    const target = new Date(targetDate).getTime();
+    const now = new Date().getTime();
+    const distance = target - now;
 
-    countdown = [
-      Math.floor(remaining / (1000 * 60 * 60 * 24)),
-      Math.floor((remaining / (1000 * 60 * 60)) % 24),
-      Math.floor((remaining / (1000 * 60)) % 60),
-      Math.floor((remaining / 1000) % 60)
-    ];
+    if (distance > 0) {
+      days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    } else {
+      clearInterval(timer);
+    }
   }
 
-  updateCountdown();
-  const interval = setInterval(updateCountdown, 1000);
-  onDestroy(() => clearInterval(interval));
+  onMount(() => {
+    updateCountdown();
+    timer = setInterval(updateCountdown, 1000);
+  });
 
-  // Compute calendar URL
-  const title = `Pernikahan ${siteConfig.bride.short} & ${siteConfig.groom.short}`;
-  const details = `Undangan Pernikahan ${siteConfig.bride.full} & ${siteConfig.groom.full}`;
-  const location = siteConfig.locationLabel || siteConfig.address;
-  
-  const dateObj = new Date(siteConfig.dateISO);
-  const startStr = dateObj.toISOString().replace(/-|:|\.\d+/g, '').slice(0, 15) + 'Z';
-  const endDateObj = new Date(dateObj.getTime() + 4 * 60 * 60 * 1000); // 4 hours
-  const endStr = endDateObj.toISOString().replace(/-|:|\.\d+/g, '').slice(0, 15) + 'Z';
-
-  $: calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+  onDestroy(() => {
+    if (timer) clearInterval(timer);
+  });
 </script>
 
-<section class="invitation-section" id="countdown" data-reveal data-stagger="[data-unit]">
-  <SectionHeading
-    tag="Save The Date"
-    title="Counting the days until forever begins"
-    description="Kami menantikan kehadiran Anda untuk menyaksikan awal perjalanan baru kami."
-  />
-
-  <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-    {#each countdown as value, index}
-      <div data-unit class="glass-card rounded-[1.8rem] px-4 py-6 text-center">
-        <p class="font-display text-5xl leading-none text-bark">{String(value).padStart(2, '0')}</p>
-        <p class="mt-3 text-[0.72rem] uppercase tracking-[0.32em] text-cocoa/60">{labels[index]}</p>
-      </div>
-    {/each}
+<section class="invitation-section relative overflow-hidden text-center" id="countdown">
+  <!-- Elegant Image Background with Parallax effect -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center bg-fixed opacity-[0.85] sepia-[0.3]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-bark/80 via-bark/60 to-bark/80"></div>
+    <!-- Premium overlay texture -->
+    <div class="absolute inset-0 bg-batik-overlay opacity-10 mix-blend-color-burn"></div>
   </div>
 
-  <div class="mt-8 text-center" data-unit>
-    <a
-      href={calendarUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="gold-button inline-flex items-center gap-2 text-sm"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      Tambahkan ke Kalender
-    </a>
+  <div class="relative z-10 py-12 text-ivory drop-shadow-md">
+    <SectionHeading 
+      tag="Menuju Hari Bahagia" 
+      title="Menghitung Waktu" 
+      description=""
+    />
+    
+    <!-- We need to override the divider and title colors here since they are dark by default -->
+    <style>
+      #countdown .section-title { color: #FAF7F2; }
+      #countdown .section-tag { background: rgba(42, 31, 26, 0.4); border-color: rgba(197, 160, 89, 0.5); color: #d4b57e; }
+    </style>
+
+    <div class="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 max-w-4xl mx-auto" data-reveal>
+      {#each [
+        { label: 'Hari', value: days },
+        { label: 'Jam', value: hours },
+        { label: 'Menit', value: minutes },
+        { label: 'Detik', value: seconds }
+      ] as item}
+        <div class="glass-card flex flex-col items-center justify-center p-6 sm:p-8 backdrop-blur-md bg-bark/40 border-gold/30 !shadow-[0_15px_30px_rgba(0,0,0,0.3)]">
+          <span class="font-display text-5xl sm:text-6xl text-gold font-light drop-shadow-sm tabular-nums tracking-tight">{item.value.toString().padStart(2, '0')}</span>
+          <span class="mt-3 text-[0.7rem] uppercase tracking-[0.35em] text-ivory/80 font-medium">{item.label}</span>
+        </div>
+      {/each}
+    </div>
+
+    <div class="mt-16 flex justify-center" data-reveal>
+      <a 
+        href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Renni+%26+Reza&dates=20261114T010000Z/20261114T060000Z&details=Turut+mengundang+Bapak/Ibu/Saudara/i+untuk+hadir+dalam+acara+pernikahan+kami.&location=Gedung+Puspa+Pesona+Taman+Anggrek+TMII`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="ghost-button !border-gold/40 !text-ivory hover:!bg-gold/20"
+      >
+        <CalendarDays size={18} class="text-gold" />
+        Ingatkan Saya
+      </a>
+    </div>
   </div>
 </section>

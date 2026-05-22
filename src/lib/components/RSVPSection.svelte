@@ -1,156 +1,179 @@
 <script>
-  import { CheckCircle2, LoaderCircle, SendHorizonal, TriangleAlert } from 'lucide-svelte';
   import SectionHeading from './SectionHeading.svelte';
-  import { hasRecentSubmission, markSubmission, submitRsvp } from '$lib/utils/rsvp';
-  import { siteConfig } from '$lib/data/site';
+  import WishesSection from './WishesSection.svelte';
+  import { Send, Heart, User, Users } from 'lucide-svelte';
+  import { submitRsvp } from '$lib/utils/rsvp';
 
   export let defaultName = '';
 
   let name = defaultName;
-  let attendance = 'Hadir';
-  let guestCount = 1;
+  let status = 'hadir';
+  let pax = 1;
   let message = '';
-  let loading = false;
-  let error = '';
-  let showSuccess = false;
+  
+  let isSubmitting = false;
+  let submitStatus = null; // 'success' | 'error' | null
 
   async function handleSubmit() {
-    error = '';
-
-    const payload = {
-      name: name.trim(),
-      attendance,
-      guestCount: Number(guestCount),
-      message: message.trim()
-    };
-
-    if (!payload.name || !payload.attendance || !payload.message) {
-      error = 'Mohon lengkapi nama, konfirmasi kehadiran, dan ucapan terlebih dahulu.';
-      return;
-    }
-
-    if (payload.guestCount < 1 || payload.guestCount > 10) {
-      error = 'Jumlah tamu harus di antara 1 sampai 10 orang.';
-      return;
-    }
-
-    if (hasRecentSubmission(payload)) {
-      error = 'RSVP untuk nama ini baru saja dikirim. Silakan tunggu beberapa menit sebelum mencoba lagi.';
-      return;
-    }
-
-    loading = true;
-
+    isSubmitting = true;
+    submitStatus = null;
+    
     try {
-      await submitRsvp(payload);
-      markSubmission(payload);
-      showSuccess = true;
-      message = '';
-      guestCount = 1;
-      attendance = 'Hadir';
-    } catch (submissionError) {
-      error = submissionError.message;
-    } finally {
-      loading = false;
-    }
-  }
-
-  function portal(node) {
-    document.body.appendChild(node);
-    return {
-      destroy() {
-        if (node.parentNode) {
-          node.parentNode.removeChild(node);
-        }
+      await submitRsvp({ name, status, pax, message });
+      submitStatus = 'success';
+      if (status === 'hadir' || status === 'ragu') {
+        message = ''; // Clear message on success
       }
-    };
+    } catch (error) {
+      console.error('Failed to submit RSVP:', error);
+      submitStatus = 'error';
+    } finally {
+      isSubmitting = false;
+    }
   }
 </script>
 
-<section class="invitation-section" id="rsvp">
-  <SectionHeading
-    tag="RSVP"
-    title="Konfirmasi kehadiran dan kirim doa terbaik"
-    description="Ucapan dan kehadiran Anda akan menjadi bagian yang sangat berarti dalam perayaan ini."
-  />
+<section class="invitation-section bg-warmBeige relative" id="rsvp">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(197,160,89,0.08),transparent_70%)]"></div>
+  
+  <div class="relative z-10">
+    <SectionHeading 
+      tag="Kehadiran" 
+      title="RSVP & Ucapan" 
+      description="Silahkan konfirmasi kehadiran dan berikan doa restu Anda."
+    />
 
-  <div class="mt-12 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-    <aside data-reveal class="glass-card rounded-[2rem] p-6 sm:p-8">
-      <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Info RSVP</p>
-      <h3 class="mt-3 font-display text-4xl text-bark">Bantu kami menyiapkan momen terbaik</h3>
-      <p class="mt-5 text-base leading-7 text-cocoa/76">
-        Setiap kehadiran memiliki arti yang begitu berharga bagi kami.
-Dengan penuh harapan, kami mengundang Anda untuk mengisi harapan dan doa untuk kami di bawah ini sebagai bentuk konfirmasi kehadiran pada momen bahagia kami.
-      </p>
-      {#if !siteConfig.appScriptEndpoint}
-      <div class="mt-6 rounded-[1.5rem] border border-gold/15 bg-white/55 p-5 text-base leading-7 text-cocoa/72">
-        Gunakan environment variable `PUBLIC_GAS_RSVP_ENDPOINT` atau isi `appScriptEndpoint` di
-        [site.js](/abs/path/c:/Users/satrio.muhammad_idst/Documents/weddingInvitation/src/lib/data/site.js).
-      </div>
-      {/if}
-    </aside>
+    <div class="mt-16 grid gap-12 lg:grid-cols-2 max-w-6xl mx-auto">
+      <!-- RSVP Form -->
+      <div class="glass-card p-8 sm:p-12 h-fit bg-white/70" data-reveal>
+        <h3 class="font-display text-2xl md:text-3xl font-medium text-bark mb-8 flex items-center gap-3">
+          <Heart size={24} class="text-gold" />
+          Konfirmasi Kehadiran
+        </h3>
+        
+        <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+          <div class="space-y-2">
+            <label for="name" class="block text-sm font-medium uppercase tracking-widest text-deepCocoa/70">
+              Nama Lengkap
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gold/60">
+                <User size={18} />
+              </div>
+              <input
+                type="text"
+                id="name"
+                bind:value={name}
+                required
+                class="w-full rounded-xl border border-gold/30 bg-white/50 py-3.5 pl-12 pr-4 text-bark placeholder:text-deepCocoa/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all"
+                placeholder="Tulis nama Anda"
+              />
+            </div>
+          </div>
 
-    <form data-reveal class="glass-card rounded-[2rem] p-6 sm:p-8" on:submit|preventDefault={handleSubmit}>
-      <div class="grid gap-5 sm:grid-cols-2">
-        <label class="grid gap-2 text-sm font-medium text-cocoa">
-          Nama
-          <input bind:value={name} class="rounded-[1.2rem] border border-gold/15 bg-white/70 px-4 py-3 outline-none focus:border-gold" placeholder="Nama lengkap" />
-        </label>
+          <div class="space-y-2">
+            <span class="block text-sm font-medium uppercase tracking-widest text-deepCocoa/70">
+              Kehadiran
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {#each [
+                { id: 'hadir', label: 'Hadir' },
+                { id: 'ragu', label: 'Masih Ragu' },
+                { id: 'tidak_hadir', label: 'Tidak Hadir' }
+              ] as option}
+                <label class="relative flex cursor-pointer items-center justify-center rounded-xl border p-4 text-center transition-all {status === option.id ? 'border-gold bg-gold/10 text-deepGold shadow-sm' : 'border-gold/20 bg-white/40 text-deepCocoa/60 hover:border-gold/40 hover:bg-white/60'}">
+                  <input
+                    type="radio"
+                    name="status"
+                    value={option.id}
+                    bind:group={status}
+                    class="sr-only"
+                  />
+                  <span class="text-sm font-medium">{option.label}</span>
+                  
+                  {#if status === option.id}
+                    <div class="absolute -top-2 -right-2 bg-gold text-white rounded-full p-1 shadow-sm">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-3 h-3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                  {/if}
+                </label>
+              {/each}
+            </div>
+          </div>
 
-        <label class="grid gap-2 text-sm font-medium text-cocoa">
-          Status Kehadiran
-          <select bind:value={attendance} class="rounded-[1.2rem] border border-gold/15 bg-white/70 px-4 py-3 outline-none focus:border-gold">
-            <option value="Hadir">Hadir</option>
-            <option value="Masih Diusahakan">Masih Diusahakan</option>
-            <option value="Berhalangan">Berhalangan</option>
-          </select>
-        </label>
-
-        <label class="grid gap-2 text-sm font-medium text-cocoa sm:col-span-2">
-          Jumlah Tamu
-          <input bind:value={guestCount} type="number" min="1" max="10" class="rounded-[1.2rem] border border-gold/15 bg-white/70 px-4 py-3 outline-none focus:border-gold" />
-        </label>
-
-        <label class="grid gap-2 text-sm font-medium text-cocoa sm:col-span-2">
-          Ucapan dan Doa
-          <textarea bind:value={message} rows="5" class="rounded-[1.2rem] border border-gold/15 bg-white/70 px-4 py-3 outline-none focus:border-gold" placeholder="Tulis doa dan ucapan terbaik Anda"></textarea>
-        </label>
-      </div>
-
-      <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <button class="gold-button min-w-[11rem]" type="submit" disabled={loading}>
-          {#if loading}
-            <LoaderCircle size={16} class="animate-spin" />
-            Mengirim...
-          {:else}
-            <SendHorizonal size={16} />
-            Kirim RSVP
+          {#if status !== 'tidak_hadir'}
+            <div class="space-y-2" transition:fade>
+              <label for="pax" class="block text-sm font-medium uppercase tracking-widest text-deepCocoa/70">
+                Jumlah Hadir
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gold/60">
+                  <Users size={18} />
+                </div>
+                <select
+                  id="pax"
+                  bind:value={pax}
+                  class="w-full appearance-none rounded-xl border border-gold/30 bg-white/50 py-3.5 pl-12 pr-10 text-bark focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all"
+                >
+                  <option value={1}>1 Orang</option>
+                  <option value={2}>2 Orang</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gold/60">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+            </div>
           {/if}
-        </button>
 
-        {#if error}
-          <p class="inline-flex items-center gap-2 text-sm text-bronze">
-            <TriangleAlert size={16} />
-            {error}
-          </p>
-        {/if}
+          <div class="space-y-2">
+            <label for="message" class="block text-sm font-medium uppercase tracking-widest text-deepCocoa/70">
+              Ucapan & Doa
+            </label>
+            <textarea
+              id="message"
+              bind:value={message}
+              rows="4"
+              required
+              class="w-full rounded-xl border border-gold/30 bg-white/50 p-4 text-bark placeholder:text-deepCocoa/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all resize-none"
+              placeholder="Tulis ucapan dan doa restu untuk mempelai..."
+            ></textarea>
+          </div>
+
+          {#if submitStatus === 'success'}
+            <div class="rounded-xl bg-green-50/80 border border-green-200 p-4 text-sm text-green-800 flex gap-3 items-start backdrop-blur-sm" transition:fade>
+              <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <p>Terima kasih atas konfirmasi dan doa restu yang diberikan.</p>
+            </div>
+          {/if}
+
+          {#if submitStatus === 'error'}
+            <div class="rounded-xl bg-red-50/80 border border-red-200 p-4 text-sm text-red-800 backdrop-blur-sm" transition:fade>
+              Terjadi kesalahan. Silahkan coba beberapa saat lagi.
+            </div>
+          {/if}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            class="gold-button w-full shadow-lg"
+          >
+            {#if isSubmitting}
+              <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>
+              Mengirim...
+            {:else}
+              <Send size={18} />
+              Kirim Konfirmasi
+            {/if}
+          </button>
+        </form>
       </div>
-    </form>
-  </div>
 
-</section>
-
-{#if showSuccess}
-  <div use:portal class="fixed inset-0 z-[70] flex items-center justify-center bg-bark/40 p-4 backdrop-blur-sm">
-    <div class="glass-card max-w-md rounded-[2rem] p-8 text-center">
-      <span class="mx-auto inline-flex rounded-full bg-gold/10 p-4 text-gold">
-        <CheckCircle2 size={30} />
-      </span>
-      <h3 class="mt-5 font-display text-4xl text-bark">Terima kasih</h3>
-      <p class="mt-3 text-base leading-7 text-cocoa/75">
-        RSVP Anda sudah kami terima. Sampai jumpa di hari bahagia kami.
-      </p>
-      <button class="gold-button mt-6" on:click={() => (showSuccess = false)}>Tutup</button>
+      <!-- Wishes Stream -->
+      <div data-reveal>
+        <WishesSection />
+      </div>
     </div>
   </div>
-{/if}
+</section>

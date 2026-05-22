@@ -1,71 +1,67 @@
-import { animate, inView, stagger } from 'motion';
+import { inView, animate, stagger } from 'motion';
 
-const easing = [0.22, 1, 0.36, 1];
-
-export function setupReveal(selector = '[data-reveal]') {
-  const elements = Array.from(document.querySelectorAll(selector));
-  const cleanups = elements.map((element) =>
-    inView(
-      element,
-      () => {
-        const staggerSelector = element instanceof HTMLElement ? element.dataset.stagger : '';
-        const targets =
-          staggerSelector && element instanceof HTMLElement
-            ? Array.from(element.querySelectorAll(staggerSelector))
-            : [element];
-
-        animate(
-          targets,
-          {
-            opacity: [0, 1],
-            transform: ['translateY(28px)', 'translateY(0px)'],
-            filter: ['blur(10px)', 'blur(0px)']
-          },
-          {
-            duration: 0.9,
-            delay: targets.length > 1 ? stagger(0.08) : 0,
-            easing
-          }
-        );
-      },
-      { amount: 0.24 }
-    )
-  );
-
-  return () => {
-    cleanups.forEach((cleanup) => cleanup?.());
-  };
-}
-
-export function animateOpening(node) {
-  const intro = node.querySelectorAll('[data-opening-item]');
-  const guestWords = node.querySelectorAll('.guest-word');
-
-  animate(
-    intro,
-    {
-      opacity: [0, 1],
-      transform: ['translateY(30px)', 'translateY(0px)'],
-      filter: ['blur(12px)', 'blur(0px)']
-    },
-    { duration: 0.95, delay: stagger(0.12), easing }
-  );
-
-  if (guestWords.length) {
+export function setupReveal() {
+  inView('[data-reveal]', (element) => {
     animate(
-      guestWords,
-      { transform: ['translateY(105%)', 'translateY(0%)'] },
-      { duration: 0.8, delay: stagger(0.06, { start: 0.35 }), easing }
+      element,
+      { 
+        opacity: [0, 1], 
+        transform: ['translateY(40px)', 'translateY(0)'],
+        filter: ['blur(4px)', 'blur(0px)']
+      },
+      { 
+        duration: 1.2, 
+        easing: [0.16, 1, 0.3, 1] // Custom very smooth easing curve
+      }
     );
-  }
+    
+    // Once revealed, keep it visible
+    return () => {}; 
+  }, { margin: '-100px' });
 }
 
-export function animateModal(node, visible) {
-  return animate(
-    node,
-    visible
-      ? { opacity: [0, 1], transform: ['translateY(18px) scale(0.98)', 'translateY(0px) scale(1)'] }
-      : { opacity: [1, 0], transform: ['translateY(0px) scale(1)', 'translateY(12px) scale(0.98)'] },
-    { duration: 0.32, easing }
-  );
+export function staggerChildren(containerSelector, childSelector, options = {}) {
+  const {
+    delay = 0.15,
+    duration = 1.0,
+    distance = 30
+  } = options;
+
+  inView(containerSelector, (element) => {
+    const children = element.querySelectorAll(childSelector);
+    if (!children.length) return;
+
+    animate(
+      children,
+      { 
+        opacity: [0, 1], 
+        transform: [`translateY(${distance}px)`, 'translateY(0)'] 
+      },
+      { 
+        delay: stagger(delay),
+        duration: duration, 
+        easing: [0.16, 1, 0.3, 1]
+      }
+    );
+  }, { margin: '-50px' });
+}
+
+export function setupParallax() {
+  // Simple parallax for elements with data-parallax
+  const handleScroll = () => {
+    const scrolled = window.scrollY;
+    const elements = document.querySelectorAll('[data-parallax]');
+    
+    elements.forEach(el => {
+      const speed = el.dataset.speed || 0.2;
+      const yPos = -(scrolled * speed);
+      el.style.transform = `translateY(${yPos}px)`;
+    });
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
 }

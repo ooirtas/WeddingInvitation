@@ -16,7 +16,7 @@
   let opened = false;
   let root;
   let musicPlayer;
-  $: currentName = data.name || data.guestName || 'Bapak/Ibu/Saudara/i';
+  $: currentName = data.guestName || 'Bapak/Ibu/Saudara/i';
   $: guestWords = currentName.split(' ').filter(Boolean);
 
   async function handleMusicStart() {
@@ -35,7 +35,7 @@
   <title>{siteConfig.title} | Wedding Invitation</title>
   <meta
     name="description"
-    content={`Undangan pernikahan ${siteConfig.bride.short} dan ${siteConfig.groom.short} untuk ${data.name}.`}
+    content={`Undangan pernikahan ${siteConfig.bride.short} dan ${siteConfig.groom.short} untuk ${currentName}.`}
   />
   <link rel="icon" type="image/png" href="/weddingIcon.png" />
 </svelte:head>
@@ -51,69 +51,87 @@
     on:open={handleOpen}
   />
 
-  <main class={`transition-all duration-700 ${opened ? 'opacity-100 blur-0' : 'pointer-events-none translate-y-8 opacity-30 blur-md'}`}>
-    <section class="relative min-h-screen overflow-hidden">
+  <main class={`transition-all duration-1000 ${opened ? 'opacity-100 blur-0' : 'pointer-events-none translate-y-12 opacity-0 blur-lg'}`}>
+    <!-- Hero Section -->
+    <section class="relative min-h-[100svh] overflow-hidden">
+      <!-- Background Layers -->
       <div
-        class="absolute inset-0 bg-cover bg-center"
-        style={`background-image:linear-gradient(180deg, rgba(42,24,15,0.16), rgba(42,24,15,0.72)), url('${siteConfig.heroImage}')`}
+        class="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-linear hover:scale-110"
+        style={`background-image: url('${siteConfig.heroImage}')`}
       ></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.22),transparent_24%),linear-gradient(135deg,rgba(198,155,88,0.1),transparent_40%)]"></div>
-      <img src="/floral-corner.svg" alt="" class="ornament-corner left-0 top-0 rotate-180" />
-      <img src="/floral-corner.svg" alt="" class="ornament-corner bottom-0 right-0" />
+      <div class="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/60 to-bark/90"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(197,160,89,0.15),transparent_40%)]"></div>
+      
+      <!-- Ornaments -->
+      <img src="/gunungan.svg" alt="" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] opacity-[0.25] pointer-events-none mix-blend-screen" />
+      <img src="/floral-corner.svg" alt="" class="absolute top-0 left-0 w-48 opacity-50 mix-blend-screen" />
+      <img src="/floral-corner.svg" alt="" class="absolute top-0 right-0 w-48 opacity-50 mix-blend-screen scale-x-[-1]" />
+      <img src="/floral-corner.svg" alt="" class="absolute bottom-0 left-0 w-48 opacity-50 mix-blend-screen scale-y-[-1]" />
+      <img src="/floral-corner.svg" alt="" class="absolute bottom-0 right-0 w-48 opacity-50 mix-blend-screen rotate-180" />
 
-      <div class="shell relative z-10 flex min-h-screen items-center py-8 ">
-        <div bind:this={root} class="glass-card mx-auto w-full max-w-xl px-6 py-10 text-center text-gold sm:px-8 sm:py-12">
-          <p data-opening-item class="mx-auto inline-flex items-center gap-2 rounded-full border border-gold/20 bg-white/10 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.38em] text-gold/90">
-            <Sparkles size={14} />
+      <div class="shell relative z-10 flex min-h-[100svh] items-center justify-center py-12">
+        <div
+          bind:this={root}
+          class="relative z-10 flex w-full max-w-2xl flex-col items-center justify-center px-6 py-16 text-center text-ivory md:py-20"
+        >
+          <p data-opening-item class="mx-auto inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-softGold/90">
+            <Sparkles size={14} class="animate-pulseSoft" />
             The Wedding Of
           </p>
-      <p data-opening-item class="mt-6 text-sm uppercase tracking-[0.34em] text-white/70">
-            {siteConfig.subtitle}
-          </p>
-          <h1 data-opening-item class="mt-4 font-display text-6xl leading-[0.88] text-gold sm:text-7xl">
+          
+          <h1
+            data-opening-item
+            class="mt-6 font-display text-[3.2rem] leading-[0.95] text-ivory drop-shadow-lg md:mt-8 md:text-[5.5rem]"
+          >
             {siteConfig.bride.short}
-            <span class="mx-2 text-gold">&</span>
+            <span class="font-script text-5xl md:text-7xl text-gold block my-4 opacity-90 drop-shadow-md">&</span>
             {siteConfig.groom.short}
           </h1>
-      <p data-opening-item class="mx-auto mt-5 max-w-md text-base leading-7 text-white">
-            {siteConfig.openingLine}
+          
+          <p data-opening-item class="mt-6 text-xs uppercase tracking-[0.3em] text-ivory/70 drop-shadow-sm md:mt-8 md:text-sm">
+            {siteConfig.subtitle}
           </p>
-          <div data-opening-item class="mx-auto mt-7 max-w-sm rounded-[1.75rem] border border-gold/20 bg-white/10 px-5 py-5 backdrop-blur-xl">
-            <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold/60">Kepada Yth.</p>
-            <p class="mt-3 font-display text-3xl leading-tight text-gold" aria-label={data.name}>
-              {#each guestWords as word}
-                <span class="inline-block overflow-hidden">
-                  <span class="guest-word inline-block">{word}&nbsp;</span>
-                </span>
-              {/each}
-            </p>
+
+          <div data-opening-item class="relative mx-auto mt-10 md:mt-14 max-w-sm">
+            <!-- Decorative Javanese Box for Guest Name -->
+            <div class="absolute inset-0 bg-bark/40 backdrop-blur-md rounded-xl border border-gold/30"></div>
+            <div class="absolute inset-1 border border-gold/15 rounded-lg pointer-events-none"></div>
+            <div class="relative px-6 py-6">
+              <p class="text-[0.65rem] uppercase tracking-[0.35em] text-gold/70">Kepada Yth.</p>
+              <p class="mt-4 font-display text-3xl leading-tight text-ivory" aria-label={currentName}>
+                {#each guestWords as word}
+                  <span class="inline-block overflow-hidden">
+                    <span class="guest-word inline-block drop-shadow-md">{word}&nbsp;</span>
+                  </span>
+                {/each}
+              </p>
+            </div>
           </div>
-      <p data-opening-item class="mx-auto mt-6 max-w-md text-base leading-7 text-white">
-            {siteConfig.invitationLine}
-          </p>
+          
+          <!-- Scroll Indicator -->
+          <div
+            data-opening-item
+            class="mt-12 flex flex-col items-center gap-3 opacity-60 md:mt-16"
+          >
+            <span class="text-[0.65rem] uppercase tracking-[0.3em]">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-gold to-transparent"></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="shell relative z-10 py-10">
-      <div data-reveal class="glass-card rounded-[2.25rem] px-6 py-8 text-center shadow-velvet sm:px-8">
-        <p class="text-[0.72rem] uppercase tracking-[0.34em] text-gold">Personal Invitation</p>
-        <h2 class="mt-4 font-display text-4xl text-bark sm:text-5xl">Dear {currentName}</h2>
-        <p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-cocoa/76">
-          Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir untuk
-          memberikan doa restu pada acara pernikahan kami.
-        </p>
-      </div>
-    </section>
-
-    <section class="shell relative z-10 py-12 text-center">
-      <div data-reveal class="max-w-2xl mx-auto space-y-4">
-        <p class="text-cocoa/80 text-base leading-7 font-serif italic">
+    <!-- Holy Verse Section -->
+    <section class="shell relative z-10 py-24 md:py-36 text-center">
+      <div class="absolute inset-0 opacity-[0.03] bg-batik-overlay z-0"></div>
+      <div data-reveal class="max-w-3xl mx-auto px-6 relative z-10">
+        <div class="premium-divider"></div>
+        <p class="text-deepCocoa/70 text-lg md:text-xl leading-[2] text-verse italic drop-shadow-sm">
           "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
         </p>
-        <p class="text-gold font-semibold uppercase tracking-[0.2em] text-base">
+        <p class="mt-8 text-deepGold font-semibold uppercase tracking-[0.3em] text-xs">
           Q.S Ar-Rum : 21
         </p>
+        <div class="premium-divider rotate-180"></div>
       </div>
     </section>
 
@@ -127,6 +145,19 @@
       mapUrl={siteConfig.mapUrl}
     />
     <GallerySection images={siteConfig.gallery} />
-    <RSVPSection defaultName={data.name !== 'Bapak/Ibu/Saudara/i' ? data.name : ''} />
+    <RSVPSection defaultName={currentName !== 'Bapak/Ibu/Saudara/i' ? currentName : ''} />
+    
+    <!-- Footer -->
+    <footer class="bg-bark text-ivory relative overflow-hidden py-16 text-center">
+      <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-0 left-4 w-32 opacity-10 pointer-events-none" />
+      <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-0 right-4 w-32 opacity-10 pointer-events-none scale-x-[-1]" />
+      
+      <div class="relative z-10 shell">
+        <h2 class="font-display text-4xl mb-6">{siteConfig.bride.short} <span class="text-gold">&</span> {siteConfig.groom.short}</h2>
+        <p class="text-[0.65rem] uppercase tracking-[0.3em] text-ivory/40">
+          Created with love • {new Date().getFullYear()}
+        </p>
+      </div>
+    </footer>
   </main>
 </div>

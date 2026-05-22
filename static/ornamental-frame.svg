@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" fill="none" preserveAspectRatio="none">
+  <!-- Premium Ornamental Frame for Cards/Images -->
+  
+  <!-- Outer double border -->
+  <rect x="10" y="10" width="380" height="480" rx="20" stroke="#c69b58" stroke-width="1.5" opacity="0.8"/>
+  <rect x="16" y="16" width="368" height="468" rx="14" stroke="#c69b58" stroke-width="0.5" opacity="0.5"/>
+  
+  <!-- Corner Ornaments (Top Left) -->
+  <path d="M10 50 C30 50, 50 30, 50 10" stroke="#c69b58" stroke-width="1.5" opacity="0.8" fill="none"/>
+  <path d="M16 60 C40 60, 60 40, 60 16" stroke="#c69b58" stroke-width="0.5" opacity="0.5" fill="none"/>
+  <circle cx="25" cy="25" r="3" fill="#c69b58" opacity="0.6"/>
+  <circle cx="35" cy="25" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="25" cy="35" r="1.5" fill="#c69b58" opacity="0.4"/>
+  
+  <!-- Corner Ornaments (Top Right) -->
+  <path d="M390 50 C370 50, 350 30, 350 10" stroke="#c69b58" stroke-width="1.5" opacity="0.8" fill="none"/>
+  <path d="M384 60 C360 60, 340 40, 340 16" stroke="#c69b58" stroke-width="0.5" opacity="0.5" fill="none"/>
+  <circle cx="375" cy="25" r="3" fill="#c69b58" opacity="0.6"/>
+  <circle cx="365" cy="25" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="375" cy="35" r="1.5" fill="#c69b58" opacity="0.4"/>
+  
+  <!-- Corner Ornaments (Bottom Left) -->
+  <path d="M10 450 C30 450, 50 470, 50 490" stroke="#c69b58" stroke-width="1.5" opacity="0.8" fill="none"/>
+  <path d="M16 440 C40 440, 60 460, 60 484" stroke="#c69b58" stroke-width="0.5" opacity="0.5" fill="none"/>
+  <circle cx="25" cy="475" r="3" fill="#c69b58" opacity="0.6"/>
+  <circle cx="35" cy="475" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="25" cy="465" r="1.5" fill="#c69b58" opacity="0.4"/>
+  
+  <!-- Corner Ornaments (Bottom Right) -->
+  <path d="M390 450 C370 450, 350 470, 350 490" stroke="#c69b58" stroke-width="1.5" opacity="0.8" fill="none"/>
+  <path d="M384 440 C360 440, 340 460, 340 484" stroke="#c69b58" stroke-width="0.5" opacity="0.5" fill="none"/>
+  <circle cx="375" cy="475" r="3" fill="#c69b58" opacity="0.6"/>
+  <circle cx="365" cy="475" r="1.5" fill="#c69b58" opacity="0.4"/>
+  <circle cx="375" cy="465" r="1.5" fill="#c69b58" opacity="0.4"/>
+  
+  <!-- Center top/bottom accents -->
+  <path d="M180 10 L200 18 L220 10" stroke="#c69b58" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <path d="M180 490 L200 482 L220 490" stroke="#c69b58" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <circle cx="200" cy="22" r="2" fill="#c69b58" opacity="0.6"/>
+  <circle cx="200" cy="478" r="2" fill="#c69b58" opacity="0.6"/>
+</svg>

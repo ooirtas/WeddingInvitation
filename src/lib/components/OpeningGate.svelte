@@ -8,27 +8,36 @@
   export let opened = false;
 
   const dispatch = createEventDispatcher();
-  let root;
   let leftGate;
   let rightGate;
   let content;
   let overlay;
+  let ready = false;
 
   $: guestWords = guestName.split(' ').filter(Boolean);
 
   async function handleOpen() {
-    // Lock scroll is handled on mount, we unlock it here after animation
     dispatch('start');
     
     // Fade out center content first
-    await animate(content, { opacity: 0, transform: 'scale(0.95)' }, { duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+    try {
+      await animate(content, { opacity: 0, transform: 'scale(0.95)' }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    } catch (e) {
+      if (content) content.style.opacity = '0';
+    }
     
     // Open gates and fade overlay
-    await Promise.all([
-      animate(leftGate, { transform: 'translateX(-100%)' }, { duration: 1.5, easing: [0.22, 1, 0.36, 1] }),
-      animate(rightGate, { transform: 'translateX(100%)' }, { duration: 1.5, easing: [0.22, 1, 0.36, 1] }),
-      animate(overlay, { opacity: 0 }, { duration: 0.8 })
-    ]);
+    try {
+      await Promise.all([
+        animate(leftGate, { transform: 'translateX(-100%)' }, { duration: 1.8, easing: [0.22, 1, 0.36, 1] }),
+        animate(rightGate, { transform: 'translateX(100%)' }, { duration: 1.8, easing: [0.22, 1, 0.36, 1] }),
+        animate(overlay, { opacity: 0 }, { duration: 1.0 })
+      ]);
+    } catch (e) {
+      if (leftGate) leftGate.style.transform = 'translateX(-100%)';
+      if (rightGate) rightGate.style.transform = 'translateX(100%)';
+      if (overlay) overlay.style.opacity = '0';
+    }
 
     document.body.style.overflow = '';
     document.documentElement.style.overflow = '';
@@ -40,8 +49,8 @@
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
     
-    // Initial content fade in
-    animate(content, { opacity: [0, 1], transform: ['scale(1.05)', 'scale(1)'] }, { duration: 1, delay: 0.5 });
+    // Show content with CSS transition instead of motion animate
+    setTimeout(() => { ready = true; }, 100);
 
     return () => {
       document.body.style.overflow = '';
@@ -50,65 +59,78 @@
   });
 </script>
 
-<div bind:this={root} class="fixed inset-0 z-[100] overflow-hidden" class:pointer-events-none={opened}>
-  <!-- Background behind gates (revealed content will be seen here) -->
-  <div bind:this={overlay} class="absolute inset-0 bg-bark/30 backdrop-blur-sm z-0"></div>
+<div class="fixed inset-0 z-[100] overflow-hidden bg-bark" class:pointer-events-none={opened} class:opacity-0={opened} style="transition: opacity 0.5s ease;">
+  <!-- Background behind gates -->
+  <div bind:this={overlay} class="absolute inset-0 bg-bark/60 backdrop-blur-md z-0"></div>
 
   <!-- Left Gate -->
-  <div bind:this={leftGate} class="absolute left-0 top-0 bottom-0 w-1/2 bg-[#fdf8f2] border-r-2 border-gold/40 shadow-2xl z-10 flex items-center justify-end overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('/batic-pattern.svg'); background-size: 300px;"></div>
+  <div bind:this={leftGate} class="absolute left-0 top-0 bottom-0 w-1/2 bg-ivory border-r-[3px] border-gold/60 shadow-[20px_0_40px_rgba(42,31,26,0.15)] z-10 flex items-center justify-end overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.06]" style="background-image: url('/batik-parang.svg'); background-size: 200px;"></div>
+    
+    <!-- Wayang silhouette accent -->
+    <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-10 left-4 w-40 opacity-20 pointer-events-none" />
+    
     <!-- Javanese Ornament / Line -->
-    <div class="absolute right-0 top-0 bottom-0 w-1 bg-gold/20"></div>
-    <div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-20 scale-y-150">
-      <img src="/floral-corner.svg" alt="" class="w-64 h-64 rotate-90" />
-    </div>
+    <div class="absolute right-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-gold/10 via-gold/40 to-gold/10"></div>
+    
+    <!-- Gate Corners -->
+    <img src="/javanese-corner.svg" alt="" class="absolute top-2 right-2 w-24 h-24 opacity-40 rotate-90" />
+    <img src="/javanese-corner.svg" alt="" class="absolute bottom-2 right-2 w-24 h-24 opacity-40 rotate-180" />
   </div>
 
   <!-- Right Gate -->
-  <div bind:this={rightGate} class="absolute right-0 top-0 bottom-0 w-1/2 bg-[#fdf8f2] border-l-2 border-gold/40 shadow-2xl z-10 flex items-center justify-start overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('/batic-pattern.svg'); background-size: 300px;"></div>
+  <div bind:this={rightGate} class="absolute right-0 top-0 bottom-0 w-1/2 bg-ivory border-l-[3px] border-gold/60 shadow-[-20px_0_40px_rgba(42,31,26,0.15)] z-10 flex items-center justify-start overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.05]" style="background-image: url('/batik-kawung.svg'); background-size: 250px;"></div>
+    
+    <!-- Wayang silhouette accent -->
+    <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-10 right-4 w-40 opacity-20 pointer-events-none scale-x-[-1]" />
+
     <!-- Javanese Ornament / Line -->
-    <div class="absolute left-0 top-0 bottom-0 w-1 bg-gold/20"></div>
-    <div class="absolute left-4 top-1/2 -translate-y-1/2 opacity-20 scale-y-150">
-      <img src="/floral-corner.svg" alt="" class="-rotate-90 w-64 h-64 scale-x-[-1]" />
-    </div>
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-gold/10 via-gold/40 to-gold/10"></div>
+    
+    <!-- Gate Corners -->
+    <img src="/javanese-corner.svg" alt="" class="absolute top-2 left-2 w-24 h-24 opacity-40" />
+    <img src="/javanese-corner.svg" alt="" class="absolute bottom-2 left-2 w-24 h-24 opacity-40 -rotate-90" />
   </div>
 
   <!-- Center Content -->
-  <div bind:this={content} class="absolute inset-0 z-20 flex flex-col items-center justify-center p-6">
-    <div class="glass-card max-w-xl w-full p-8 sm:p-12 text-center border border-gold/20 bg-white/90 shadow-card backdrop-blur-xl">
-      <p class="inline-flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.38em] text-gold">
-        <Sparkles size={14} />
+  <div
+    bind:this={content}
+    class="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 transition-all duration-1000 ease-out"
+    class:opacity-0={!ready}
+    class:scale-105={!ready}
+    class:opacity-100={ready}
+    class:scale-100={ready}
+  >
+    <div class="glass-card max-w-[34rem] w-full p-10 sm:p-14 text-center bg-white/95 shadow-[0_30px_80px_rgba(42,31,26,0.2)] backdrop-blur-2xl rounded-2xl border border-gold/30">
+      <p class="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.45em] text-deepGold">
+        <Sparkles size={14} class="animate-pulseSoft" />
         The Wedding Of
       </p>
       
-      <h1 class="mt-6 font-display text-5xl sm:text-6xl text-bark leading-none">
+      <h1 class="mt-8 font-display text-5xl sm:text-[4rem] text-bark leading-[0.9]">
         {siteConfig.bride.short}
-        <div class="mt-4 text-base leading-relaxed text-cocoa/80">
-          <p>{siteConfig.bride.parents}</p>
-        </div>
-        <span class="font-sans text-3xl text-gold block my-2">&</span>
+        <span class="font-script text-4xl sm:text-5xl text-gold block my-3 opacity-90">&amp;</span>
         {siteConfig.groom.short}
-        <div class="mt-4 text-base leading-relaxed text-cocoa/80">
-          <p>{siteConfig.groom.parents}</p>
-        </div>
       </h1>
 
-      <p class="mt-6 text-sm uppercase tracking-[0.24em] text-cocoa/70">
-        {siteConfig.subtitle}
-      </p>
+      <div class="mt-6 text-base leading-relaxed text-deepCocoa/70 font-light">
+        <p>{siteConfig.bride.parents}</p>
+        <p class="text-xs uppercase tracking-widest text-gold/60 my-1">&amp;</p>
+        <p>{siteConfig.groom.parents}</p>
+      </div>
 
-      <div class="soft-divider my-8"></div>
+      <div class="soft-divider my-10 opacity-70"></div>
 
-      <div class="space-y-2">
-        <p class="text-[0.72rem] uppercase tracking-[0.34em] text-cocoa/64">Kepada Yth.</p>
-        <p class="font-display text-3xl sm:text-4xl text-bark text-balance">
+      <div class="space-y-3 relative z-10">
+        <p class="text-[0.68rem] uppercase tracking-[0.4em] text-deepCocoa/50">Kepada Yth.</p>
+        <p class="font-display text-[2rem] sm:text-[2.5rem] text-bark text-balance">
           {guestName}
         </p>
       </div>
 
       <button
-        class="gold-button mt-10 min-w-[15rem] w-full sm:w-auto hover:shadow-glow transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+        class="gold-button mt-12 w-full sm:w-auto relative z-10"
         on:click={handleOpen}
       >
         <Heart size={16} />
