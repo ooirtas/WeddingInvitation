@@ -12,6 +12,7 @@
   let rightGate;
   let content;
   let overlay;
+  let ribbonKnot;
   let ready = false;
 
   $: guestWords = guestName.split(' ').filter(Boolean);
@@ -31,12 +32,21 @@
       await Promise.all([
         animate(leftGate, { transform: 'translateX(-100%)' }, { duration: 1.8, easing: [0.22, 1, 0.36, 1] }),
         animate(rightGate, { transform: 'translateX(100%)' }, { duration: 1.8, easing: [0.22, 1, 0.36, 1] }),
-        animate(overlay, { opacity: 0 }, { duration: 1.0 })
+        animate(overlay, { opacity: 0 }, { duration: 1.0 }),
+        animate(
+          ribbonKnot,
+          { opacity: 0, transform: 'translate(-50%, -50%) scale(0.7) rotate(-18deg)' },
+          { duration: 0.7, easing: [0.4, 0, 0.2, 1] }
+        )
       ]);
     } catch (e) {
       if (leftGate) leftGate.style.transform = 'translateX(-100%)';
       if (rightGate) rightGate.style.transform = 'translateX(100%)';
       if (overlay) overlay.style.opacity = '0';
+      if (ribbonKnot) {
+        ribbonKnot.style.opacity = '0';
+        ribbonKnot.style.transform = 'translate(-50%, -50%) scale(0.7) rotate(-18deg)';
+      }
     }
 
     document.body.style.overflow = '';
@@ -76,6 +86,9 @@
     <!-- Gate Corners -->
     <img src="/javanese-corner.svg" alt="" class="absolute top-2 right-2 w-24 h-24 opacity-40 rotate-90" />
     <img src="/javanese-corner.svg" alt="" class="absolute bottom-2 right-2 w-24 h-24 opacity-40 rotate-180" />
+
+    <div class="pointer-events-none absolute right-0 top-1/2 h-5 w-[68%] -translate-y-1/2 rounded-l-full border-y border-l border-gold/60 bg-gradient-to-r from-gold/20 via-gold/55 to-gold/80 shadow-[0_6px_18px_rgba(197,160,89,0.28)] sm:h-6"></div>
+    <div class="pointer-events-none absolute right-10 top-1/2 h-9 w-7 -translate-y-1/2 rounded-full border border-white/30 bg-white/25 blur-[1px] sm:h-10 sm:w-8"></div>
   </div>
 
   <!-- Right Gate -->
@@ -91,6 +104,19 @@
     <!-- Gate Corners -->
     <img src="/javanese-corner.svg" alt="" class="absolute top-2 left-2 w-24 h-24 opacity-40" />
     <img src="/javanese-corner.svg" alt="" class="absolute bottom-2 left-2 w-24 h-24 opacity-40 -rotate-90" />
+
+    <div class="pointer-events-none absolute left-0 top-1/2 h-5 w-[68%] -translate-y-1/2 rounded-r-full border-y border-r border-gold/60 bg-gradient-to-l from-gold/20 via-gold/55 to-gold/80 shadow-[0_6px_18px_rgba(197,160,89,0.28)] sm:h-6"></div>
+    <div class="pointer-events-none absolute left-10 top-1/2 h-9 w-7 -translate-y-1/2 rounded-full border border-white/30 bg-white/25 blur-[1px] sm:h-10 sm:w-8"></div>
+  </div>
+
+  <div
+    bind:this={ribbonKnot}
+    class="pointer-events-none absolute left-1/2 top-1/2 z-20 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:h-20 sm:w-20"
+  >
+    <div class="absolute h-7 w-7 rotate-45 rounded-[0.85rem] border border-gold/60 bg-gradient-to-br from-[#f3dfb0] via-gold/95 to-[#b98d3e] shadow-[0_8px_24px_rgba(197,160,89,0.35)] sm:h-9 sm:w-9"></div>
+    <div class="absolute left-[0.15rem] h-10 w-5 origin-right -rotate-[30deg] rounded-l-full border border-gold/50 bg-gradient-to-r from-[#f9e9c7] to-gold/90 sm:left-1 sm:h-12 sm:w-6"></div>
+    <div class="absolute right-[0.15rem] h-10 w-5 origin-left rotate-[30deg] rounded-r-full border border-gold/50 bg-gradient-to-l from-[#f9e9c7] to-gold/90 sm:right-1 sm:h-12 sm:w-6"></div>
+    <div class="absolute top-[2.8rem] h-10 w-[0.35rem] rounded-full bg-gradient-to-b from-gold/95 to-transparent sm:top-[3.4rem] sm:h-12"></div>
   </div>
 
   <!-- Center Content -->
@@ -108,16 +134,26 @@
         The Wedding Of
       </p>
       
-      <h1 class="mt-6 font-display text-[3.35rem] leading-[0.92] text-bark sm:mt-8 sm:text-[3.8rem]">
-        {siteConfig.bride.short}
-        <span class="my-2 block font-script text-[3rem] text-gold opacity-90 sm:my-3 sm:text-5xl">&amp;</span>
-        {siteConfig.groom.short}
-      </h1>
+      <div class="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
+        <div class="space-y-2">
+          <h1 class="font-display text-[3.35rem] leading-[0.92] text-bark sm:text-[3.8rem]">
+            {siteConfig.bride.short}
+          </h1>
+          <p class="mx-auto max-w-[18rem] text-sm font-light leading-relaxed text-deepCocoa/70 sm:max-w-[20rem] sm:text-base">
+            {siteConfig.bride.parents}
+          </p>
+        </div>
 
-      <div class="mt-5 text-sm font-light leading-relaxed text-deepCocoa/70 sm:mt-6 sm:text-base">
-        <p>{siteConfig.bride.parents}</p>
-        <p class="text-xs uppercase tracking-widest text-gold/60 my-1">&amp;</p>
-        <p>{siteConfig.groom.parents}</p>
+        <span class="block font-script text-[3rem] text-gold opacity-90 sm:text-5xl">&amp;</span>
+
+        <div class="space-y-2">
+          <h2 class="font-display text-[3.35rem] leading-[0.92] text-bark sm:text-[3.8rem]">
+            {siteConfig.groom.short}
+          </h2>
+          <p class="mx-auto max-w-[18rem] text-sm font-light leading-relaxed text-deepCocoa/70 sm:max-w-[20rem] sm:text-base">
+            {siteConfig.groom.parents}
+          </p>
+        </div>
       </div>
 
       <div class="soft-divider my-7 opacity-70 sm:my-9"></div>
