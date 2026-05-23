@@ -7,24 +7,41 @@
   
   let audio;
   let showLabel = true;
+  let hasPendingAutoplay = false;
 
-  export function play() {
-    audio?.play().catch(console.error);
-    musicState.setPlaying(true);
-    
-    // Hide label after starting to play
-    setTimeout(() => {
-      showLabel = false;
-    }, 3000);
+  async function startPlayback() {
+    if (!audio) {
+      return false;
+    }
+
+    try {
+      await audio.play();
+      hasPendingAutoplay = false;
+
+      // Hide label after playback actually starts.
+      setTimeout(() => {
+        showLabel = false;
+      }, 3000);
+
+      return true;
+    } catch (error) {
+      hasPendingAutoplay = true;
+      musicState.setPlaying(false);
+      console.error(error);
+      return false;
+    }
   }
 
-  function toggle() {
+  export async function play() {
+    return startPlayback();
+  }
+
+  async function toggle() {
     if ($musicState.playing) {
       audio?.pause();
       musicState.setPlaying(false);
     } else {
-      audio?.play().catch(console.error);
-      musicState.setPlaying(true);
+      await startPlayback();
     }
   }
 
@@ -32,6 +49,11 @@
     // Sync internal state if audio pauses externally (e.g. system interrupt)
     audio.addEventListener('pause', () => musicState.setPlaying(false));
     audio.addEventListener('play', () => musicState.setPlaying(true));
+    audio.addEventListener('canplay', () => {
+      if (hasPendingAutoplay) {
+        void startPlayback();
+      }
+    });
   });
 </script>
 

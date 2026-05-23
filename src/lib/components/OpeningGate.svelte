@@ -96,41 +96,41 @@
   <!-- Center Content -->
   <div
     bind:this={content}
-    class="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 transition-all duration-1000 ease-out"
+    class="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 sm:p-6 transition-all duration-1000 ease-out"
     class:opacity-0={!ready}
     class:scale-105={!ready}
     class:opacity-100={ready}
     class:scale-100={ready}
   >
-    <div class="glass-card max-w-[34rem] w-full p-10 sm:p-14 text-center bg-white/95 shadow-[0_30px_80px_rgba(42,31,26,0.2)] backdrop-blur-2xl rounded-2xl border border-gold/30">
+    <div class="glass-card max-w-[30rem] w-full rounded-[1.5rem] border border-gold/30 bg-white/95 p-6 text-center shadow-[0_24px_64px_rgba(42,31,26,0.16)] backdrop-blur-2xl sm:max-w-[32rem] sm:p-10">
       <p class="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.45em] text-deepGold">
         <Sparkles size={14} class="animate-pulseSoft" />
         The Wedding Of
       </p>
       
-      <h1 class="mt-8 font-display text-5xl sm:text-[4rem] text-bark leading-[0.9]">
+      <h1 class="mt-6 font-display text-[3.35rem] leading-[0.92] text-bark sm:mt-8 sm:text-[3.8rem]">
         {siteConfig.bride.short}
-        <span class="font-script text-4xl sm:text-5xl text-gold block my-3 opacity-90">&amp;</span>
+        <span class="my-2 block font-script text-[3rem] text-gold opacity-90 sm:my-3 sm:text-5xl">&amp;</span>
         {siteConfig.groom.short}
       </h1>
 
-      <div class="mt-6 text-base leading-relaxed text-deepCocoa/70 font-light">
+      <div class="mt-5 text-sm font-light leading-relaxed text-deepCocoa/70 sm:mt-6 sm:text-base">
         <p>{siteConfig.bride.parents}</p>
         <p class="text-xs uppercase tracking-widest text-gold/60 my-1">&amp;</p>
         <p>{siteConfig.groom.parents}</p>
       </div>
 
-      <div class="soft-divider my-10 opacity-70"></div>
+      <div class="soft-divider my-7 opacity-70 sm:my-9"></div>
 
       <div class="space-y-3 relative z-10">
-        <p class="text-[0.68rem] uppercase tracking-[0.4em] text-deepCocoa/50">Kepada Yth.</p>
-        <p class="font-display text-[2rem] sm:text-[2.5rem] text-bark text-balance">
+        <p class="text-[0.65rem] uppercase tracking-[0.34em] text-deepCocoa/50 sm:text-[0.68rem] sm:tracking-[0.4em]">Kepada Yth.</p>
+        <p class="font-display text-[1.8rem] leading-tight text-bark text-balance sm:text-[2.2rem]">
           {guestName}
         </p>
       </div>
 
       <button
-        class="gold-button mt-12 w-full sm:w-auto relative z-10"
+        class="gold-button relative z-10 mt-8 w-full px-6 py-4 text-sm sm:mt-10 sm:w-auto sm:px-8 sm:py-5"
         on:click={handleOpen}
       >
         <Heart size={16} />
