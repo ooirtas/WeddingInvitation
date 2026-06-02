@@ -2,6 +2,7 @@
   import SectionHeading from './SectionHeading.svelte';
   import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-svelte';
   import { fade, scale } from 'svelte/transition';
+  import { onMount, onDestroy } from 'svelte';
 
   export let images;
 
@@ -50,15 +51,23 @@
     if (autoplayInterval) clearInterval(autoplayInterval);
   }
 
-  import { onMount, onDestroy } from 'svelte';
-  
+  function handleVisibilityChange() {
+    if (document.hidden) {
+      stopAutoplay();
+    } else if (!isLightboxOpen) {
+      startAutoplay();
+    }
+  }
+
   onMount(() => {
     startAutoplay();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
   });
 
   onDestroy(() => {
     stopAutoplay();
     if (typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.body.style.overflow = '';
     }
   });
@@ -92,6 +101,8 @@
             <enhanced:img
               src={image.src}
               alt={image.alt || `Gallery ${i + 1}`}
+              loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover"
             />
           </button>
@@ -130,7 +141,13 @@
           on:click={() => goTo(i)}
           class="relative h-20 w-20 shrink-0 snap-center overflow-hidden rounded-lg transition-all duration-300 hover:scale-105 border {i === activeIndex ? 'border-gold shadow-md' : 'border-gold/20 opacity-60 hover:opacity-100'}"
         >
-          <enhanced:img src={image.src} alt={image.alt || `Thumbnail ${i + 1}`} class="h-full w-full object-cover sepia-[0.2]" />
+          <enhanced:img 
+            src={image.src} 
+            alt={image.alt || `Thumbnail ${i + 1}`} 
+            loading="lazy" 
+            decoding="async" 
+            class="h-full w-full object-cover sepia-[0.2]" 
+          />
           {#if i === activeIndex}
             <div class="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
           {/if}
@@ -169,6 +186,8 @@
         <enhanced:img
           src={images[activeIndex].src}
           alt={images[activeIndex].alt || `Gallery full ${activeIndex + 1}`}
+          loading="eager"
+          decoding="async"
           class="max-h-[85vh] w-auto max-w-full rounded-lg shadow-2xl border border-gold/30"
         />
       {/key}

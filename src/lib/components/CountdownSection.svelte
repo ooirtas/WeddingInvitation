@@ -9,7 +9,8 @@
   let hours = 0;
   let minutes = 0;
   let seconds = 0;
-  let timer;
+  let animationFrameId;
+  let lastUpdate = 0;
 
   function updateCountdown() {
     const target = new Date(targetDate).getTime();
@@ -21,18 +22,28 @@
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    } else {
-      clearInterval(timer);
+    }
+  }
+
+  function loop(timestamp) {
+    if (timestamp - lastUpdate >= 1000) {
+      updateCountdown();
+      lastUpdate = timestamp;
+    }
+    // Only continue requesting frames if date is in future
+    const distance = new Date(targetDate).getTime() - new Date().getTime();
+    if (distance > 0) {
+      animationFrameId = requestAnimationFrame(loop);
     }
   }
 
   onMount(() => {
     updateCountdown();
-    timer = setInterval(updateCountdown, 1000);
+    animationFrameId = requestAnimationFrame(loop);
   });
 
   onDestroy(() => {
-    if (timer) clearInterval(timer);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
   });
 </script>
 

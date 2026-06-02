@@ -7,6 +7,7 @@
   import EventSection from '$lib/components/EventSection.svelte';
   import GallerySection from '$lib/components/GallerySection.svelte';
   import RSVPSection from '$lib/components/RSVPSection.svelte';
+  import Ornament from '$lib/components/Ornament.svelte';
   import { setupReveal } from '$lib/utils/motion';
   import { siteConfig } from '$lib/data/site';
   import { Heart, Sparkles } from 'lucide-svelte';
@@ -56,18 +57,18 @@
     <section class="relative min-h-[100svh] overflow-hidden">
       <!-- Background Layers -->
       <div
-        class="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-linear hover:scale-110"
+        class="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-linear hover:scale-110 will-change-transform"
         style={`background-image: url('${siteConfig.heroImage}')`}
       ></div>
       <div class="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/60 to-bark/90"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(197,160,89,0.15),transparent_40%)]"></div>
       
       <!-- Ornaments -->
-      <img src="/gunungan.svg" alt="" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] opacity-[0.25] pointer-events-none mix-blend-screen" />
-      <img src="/floral-corner.svg" alt="" class="absolute top-0 left-0 w-48 opacity-50 mix-blend-screen" />
-      <img src="/floral-corner.svg" alt="" class="absolute top-0 right-0 w-48 opacity-50 mix-blend-screen scale-x-[-1]" />
-      <img src="/floral-corner.svg" alt="" class="absolute bottom-0 left-0 w-48 opacity-50 mix-blend-screen scale-y-[-1]" />
-      <img src="/floral-corner.svg" alt="" class="absolute bottom-0 right-0 w-48 opacity-50 mix-blend-screen rotate-180" />
+      <Ornament lazy={false} src="/gunungan.svg" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] opacity-[0.25] mix-blend-screen" />
+      <Ornament lazy={false} src="/floral-corner.svg" className="absolute top-0 left-0 w-48 opacity-50 mix-blend-screen" />
+      <Ornament lazy={false} src="/floral-corner.svg" className="absolute top-0 right-0 w-48 opacity-50 mix-blend-screen scale-x-[-1]" />
+      <Ornament lazy={false} src="/floral-corner.svg" className="absolute bottom-0 left-0 w-48 opacity-50 mix-blend-screen scale-y-[-1]" />
+      <Ornament lazy={false} src="/floral-corner.svg" className="absolute bottom-0 right-0 w-48 opacity-50 mix-blend-screen rotate-180" />
 
       <div class="shell relative z-10 flex min-h-[100svh] items-center justify-center py-12">
         <div
@@ -149,8 +150,8 @@
     
     <!-- Footer -->
     <footer class="bg-bark text-ivory relative overflow-hidden py-16 text-center">
-      <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-0 left-4 w-32 opacity-10 pointer-events-none" />
-      <img src="/wayang-silhouette.svg" alt="" class="absolute bottom-0 right-4 w-32 opacity-10 pointer-events-none scale-x-[-1]" />
+      <Ornament src="/wayang-silhouette.svg" className="absolute bottom-0 left-4 w-32 opacity-10" />
+      <Ornament src="/wayang-silhouette.svg" className="absolute bottom-0 right-4 w-32 opacity-10 scale-x-[-1]" />
       
       <div class="relative z-10 shell">
         <h2 class="font-display text-4xl mb-6">{siteConfig.bride.short} <span class="text-gold">&</span> {siteConfig.groom.short}</h2>
