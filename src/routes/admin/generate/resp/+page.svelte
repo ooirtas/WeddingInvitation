@@ -1,5 +1,5 @@
 <script>
-  import { Copy, Download, MessageCircle, Link2 } from 'lucide-svelte';
+  import { Copy, Download, MessageCircle, Link2, Share2 } from 'lucide-svelte';
   import { siteConfig } from '$lib/data/site';
   import {
     buildResepsiInvitationLink,
@@ -29,7 +29,12 @@
   });
 
   $: bulkExport = rows
-    .map((row) => [row.guest, row.link, row.whatsappUrl, row.message.replace(/\n/g, ' ')].join('\t'))
+    .map((row) => [
+      row.guest,
+      row.message.replace(/\n/g, ' '),
+      row.whatsappUrl,
+      row.link
+    ].join('\t'))
     .join('\n');
 
   async function copyText(value, label) {
@@ -43,13 +48,14 @@
   }
 
   function exportToExcel() {
-    const header = ['Guest', 'Link', 'WhatsApp Message'];
+    const header = ['Guest', 'WhatsApp Message', 'WhatsApp URL', 'Link'];
     const csvContent = [
       header.join(','),
       ...rows.map(row => [
         `"${row.guest.replace(/"/g, '""')}"`,
-        `"${row.link.replace(/"/g, '""')}"`,
-        `"${row.message.replace(/"/g, '""')}"`
+        `"${row.message.replace(/"/g, '""')}"`,
+        `"${row.whatsappUrl.replace(/"/g, '""')}"`,
+        `"${row.link.replace(/"/g, '""')}"`
       ].join(','))
     ].join('\n');
 
@@ -129,6 +135,44 @@
                 <MessageCircle size={16} />
                 Open WhatsApp
               </a>
+            </div>
+
+            <!-- Quick copy buttons: Nama · Chat WA · Share WA · Link -->
+            <div class="mt-4 flex flex-wrap gap-2">
+              <button
+                class="flex items-center gap-1.5 rounded-full border border-gold/20 bg-white/70 px-3 py-1.5 text-xs font-semibold text-cocoa transition hover:border-gold hover:text-gold"
+                on:click={() => copyText(row.guest, row.guest + '-nama')}
+                aria-label="Copy nama"
+              >
+                <Copy size={13} />
+                Nama
+              </button>
+              <button
+                class="flex items-center gap-1.5 rounded-full border border-gold/20 bg-white/70 px-3 py-1.5 text-xs font-semibold text-cocoa transition hover:border-gold hover:text-gold"
+                on:click={() => copyText(row.message, row.guest + '-chat')}
+                aria-label="Copy pesan WA"
+              >
+                <MessageCircle size={13} />
+                Chat WA
+              </button>
+              <a
+                href={row.whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                class="flex items-center gap-1.5 rounded-full border border-gold/20 bg-white/70 px-3 py-1.5 text-xs font-semibold text-cocoa transition hover:border-gold hover:text-gold"
+                aria-label="Share via WA"
+              >
+                <Share2 size={13} />
+                Share WA
+              </a>
+              <button
+                class="flex items-center gap-1.5 rounded-full border border-gold/20 bg-white/70 px-3 py-1.5 text-xs font-semibold text-cocoa transition hover:border-gold hover:text-gold"
+                on:click={() => copyText(row.link, row.guest + '-link')}
+                aria-label="Copy link"
+              >
+                <Link2 size={13} />
+                Link
+              </button>
             </div>
 
             <div class="mt-5 grid gap-4">

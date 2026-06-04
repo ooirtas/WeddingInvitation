@@ -9,6 +9,8 @@
   let showLabel = true;
   let hasPendingAutoplay = false;
   let userInteracted = false;
+  // true bila sistem (bukan user) yang minta pause → audio harus resume otomatis
+  let shouldResume = false;
 
   function canUseWindow() {
     return typeof window !== 'undefined';
@@ -56,6 +58,8 @@
       await audio.play();
 
       hasPendingAutoplay = false;
+      userInteracted = true; // play berhasil = browser mengakui user gesture
+      removeInteractionListeners();
       musicState.setPlaying(true);
 
       setTimeout(() => {
@@ -79,6 +83,8 @@
   }
 
   export async function play() {
+    userInteracted = true; // dipanggil dari klik user (OpeningGate)
+    removeInteractionListeners();
     return startPlayback();
   }
 
@@ -93,23 +99,92 @@
     }
   }
 
-  onMount(() => {
-    audio.addEventListener('pause', () => musicState.setPlaying(false));
-    audio.addEventListener('play', () => musicState.setPlaying(true));
+  // ─── Pause/resume oleh sistem (bukan oleh user) ────────────────────────────
 
-    // canplay: coba lagi jika audio sudah siap & ada pending autoplay
-    audio.addEventListener('canplay', () => {
-      if (hasPendingAutoplay && userInteracted) {
-        void startPlayback();
-      }
+  function pauseBySystem() {
+    if (!audio || audio.paused) return;
+    shouldResume = true;   // tandai: perlu resume saat kembali
+    audio.pause();          // 'pause' event akan ditangkap listener di bawah
+  }
+
+  function resumeBySystem() {
+    if (!shouldResume || !userInteracted || !audio || !audio.paused) return;
+    shouldResume = false;
+
+    // Panggil audio.play() LANGSUNG (bukan lewat startPlayback / setTimeout)
+    // agar tetap dalam trusted-event context. Browser memblokir play()
+    // yang dipanggil dari setTimeout karena dianggap bukan user gesture.
+    void audio.play().catch((err) => {
+      console.warn('[MusicPlayer] Auto-resume blocked:', err);
+      // Jika browser memblokir, biarkan saja — user bisa klik tombol manual.
     });
+  }
 
-    // Langsung coba autoplay saat mount
-    void startPlayback();
+  // Dipanggil saat tab tersembunyi / terlihat kembali
+  function handleVisibilityChange() {
+    if (!canUseWindow()) return;
+    if (document.hidden) {
+      pauseBySystem();
+    } else {
+      // Langsung resume di dalam handler (bukan setTimeout)
+      // supaya audio.play() dianggap trusted oleh browser.
+      resumeBySystem();
+    }
+  }
+
+  // Dipanggil saat window kehilangan / mendapatkan fokus (pindah aplikasi)
+  // — hanya relevan jika document.hidden tidak berubah (desktop app switching)
+  function handleWindowBlur() {
+    if (!canUseWindow() || document.hidden) return;
+    pauseBySystem();
+  }
+
+  function handleWindowFocus() {
+    if (!canUseWindow() || document.hidden) return;
+    // Delay minimal agar visibilitychange sempat tiba lebih dulu
+    // bila keduanya terjadi bersamaan (mencegah double-resume)
+    setTimeout(resumeBySystem, 50);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
+onMount(() => {
+  // Pastikan audio element benar-benar ada
+  if (!audio) return;
+
+  audio.addEventListener('pause', () => {
+    // Abaikan event pause dari sistem — musicState tetap true
+    // agar tombol menampilkan "playing" & auto-resume dapat berjalan.
+    if (shouldResume) return;
+    musicState.setPlaying(false);
   });
+  
+  audio.addEventListener('play', () => musicState.setPlaying(true));
+
+  audio.addEventListener('canplay', () => {
+    if (hasPendingAutoplay && userInteracted) {
+      void startPlayback();
+    }
+  });
+
+  // Pasang listener hanya di client
+  if (typeof document !== 'undefined') {
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+  }
+  if (canUseWindow()) {
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('focus', handleWindowFocus);
+  }
+
+  void startPlayback();
+});
 
   onDestroy(() => {
     removeInteractionListeners();
+    if (canUseWindow()) {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('focus', handleWindowFocus);
+    }
   });
 </script>
 
