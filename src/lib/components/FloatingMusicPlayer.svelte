@@ -147,17 +147,38 @@
   }
   // ─────────────────────────────────────────────────────────────────────────
 
-onMount(() => {
-  // Pastikan audio element benar-benar ada
-  if (!audio) return;
+onMount(async () => {
+  // ── 1. Pasang listener document/window TANPA SYARAT ──────────────────
+  //    Ini harus selalu aktif, tidak bergantung pada audio element.
+  //    Pada production SSR, audio bisa belum ter-bind saat onMount jalan.
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('blur', handleWindowBlur);
+  window.addEventListener('focus', handleWindowFocus);
 
+  // ── 2. Tunggu audio element ter-bind (SSR hydration) ─────────────────
+  if (!audio) {
+    const { tick } = await import('svelte');
+    await tick();
+  }
+
+  // Guard: jika setelah tick audio masih null, coba lagi sedikit lagi
+  if (!audio) {
+    await new Promise((r) => setTimeout(r, 50));
+  }
+
+  if (!audio) {
+    console.warn('[MusicPlayer] audio element tidak ditemukan setelah mount');
+    return;
+  }
+
+  // ── 3. Pasang listener audio element ─────────────────────────────────
   audio.addEventListener('pause', () => {
     // Abaikan event pause dari sistem — musicState tetap true
     // agar tombol menampilkan "playing" & auto-resume dapat berjalan.
     if (shouldResume) return;
     musicState.setPlaying(false);
   });
-  
+
   audio.addEventListener('play', () => musicState.setPlaying(true));
 
   audio.addEventListener('canplay', () => {
@@ -165,15 +186,6 @@ onMount(() => {
       void startPlayback();
     }
   });
-
-  // Pasang listener hanya di client
-  if (typeof document !== 'undefined') {
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-  }
-  if (canUseWindow()) {
-    window.addEventListener('blur', handleWindowBlur);
-    window.addEventListener('focus', handleWindowFocus);
-  }
 
   void startPlayback();
 });
